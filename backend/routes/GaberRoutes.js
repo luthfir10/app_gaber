@@ -26,10 +26,10 @@ import {
 const router = express.Router();
 
 router.get("/pegawais", getPegawai);
-router.get("/pegawais/:id", getPegawaiById);
+router.get("/pegawais/:nip", getPegawaiById);
 router.post("/pegawais", createPegawai);
-router.patch("/pegawais/:id", updatePegawai);
-router.delete("/pegawais/:id", deletePegawai);
+router.patch("/pegawais/:nip", updatePegawai);
+router.delete("/pegawais/:nip", deletePegawai);
 
 router.get("/kelurahan", getKelurahan);
 router.get("/kelurahan/:id", getKeluruhanById);
