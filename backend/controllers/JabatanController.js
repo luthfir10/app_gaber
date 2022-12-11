@@ -57,7 +57,7 @@ export const getJabatanById = async (req, res) => {
   try {
     const result = await JabatanModel.findOne({
       where: {
-        kode: req.params.id,
+        kode: req.params.kode,
       },
     });
     res.json({

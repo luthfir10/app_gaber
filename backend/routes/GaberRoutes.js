@@ -32,15 +32,15 @@ router.patch("/pegawais/:nip", updatePegawai);
 router.delete("/pegawais/:nip", deletePegawai);
 
 router.get("/kelurahan", getKelurahan);
-router.get("/kelurahan/:id", getKeluruhanById);
+router.get("/kelurahan/:kode", getKeluruhanById);
 router.post("/kelurahan", createKelurahan);
-router.patch("/kelurahan/:id", updateKelurahan);
-router.delete("/kelurahan/:id", deleteKelurahan);
+router.patch("/kelurahan/:kode", updateKelurahan);
+router.delete("/kelurahan/:kode", deleteKelurahan);
 
 router.get("/jabatan", getJabatan);
-router.get("/jabatan/:id", getJabatanById);
+router.get("/jabatan/:kode", getJabatanById);
 router.post("/jabatan", createJabatan);
-router.patch("/jabatan/:id", updateJabatan);
-router.delete("/jabatan/:id", deleteJabatan);
+router.patch("/jabatan/:kode", updateJabatan);
+router.delete("/jabatan/:kode", deleteJabatan);
 
 export default router;

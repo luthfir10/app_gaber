@@ -57,7 +57,7 @@ export const getKeluruhanById = async (req, res) => {
   try {
     const result = await KelurahanModel.findOne({
       where: {
-        id: req.params.id,
+        kode: req.params.kode,
       },
     });
     res.json({
@@ -81,7 +81,7 @@ export const updateKelurahan = async (req, res) => {
   try {
     await KelurahanModel.update(req.body, {
       where: {
-        id: req.params.id,
+        kode: req.params.kode,
       },
     });
     res.status(200).json({ msg: "Sukses Update Kelurahan" });
@@ -94,7 +94,7 @@ export const deleteKelurahan = async (req, res) => {
   try {
     await KelurahanModel.destroy({
       where: {
-        id: req.params.id,
+        kode: req.params.kode,
       },
     });
     res.status(200).json({ msg: "Sukses Delete Kelurahan" });

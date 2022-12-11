@@ -133,13 +133,15 @@ const Listkelurahan = () => {
                 </thead>
                 <tbody>
                   {datakelurahans.map((datakelurahan, index) => (
-                    <tr key={datakelurahan.id}>
+                    <tr key={datakelurahan.kode}>
                       <td align="center">{index + 1}</td>
                       <td>{datakelurahan.kode}</td>
                       <td>{datakelurahan.nama}</td>
                       <td>{datakelurahan.alamat}</td>
                       <td align="center">
-                        <Link to={`/masterkelurahan/edit/${datakelurahan.id}`}>
+                        <Link
+                          to={`/masterkelurahan/edit/${datakelurahan.kode}`}
+                        >
                           <Button variant="outline-warning">Edit</Button>
                         </Link>
                       </td>
