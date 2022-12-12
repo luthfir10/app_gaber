@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import Spinner from "react-bootstrap/Spinner";
+
 import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
 
@@ -99,7 +101,13 @@ function App() {
         <Route
           path="/masterkelurahan/add"
           element={
-            <React.Suspense fallback="Loading...">
+            <React.Suspense
+              fallback={
+                <Spinner animation="border" role="status" variant="success">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              }
+            >
               <LazyInputkelurahan />
             </React.Suspense>
           }
