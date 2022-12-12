@@ -8,17 +8,17 @@ import Navigation from "./components/Navigation";
 // import Inputpegawai from "./components/pegawai/Inputpegawai";
 // import Editpegawai from "./components/pegawai/Editpegawai";
 
-import Masterkelurahan from "./components/kelurahan/Masterkelurahan";
-import Inputkelurahan from "./components/kelurahan/Inputkelurahan";
-import Editkelurahan from "./components/kelurahan/Editkelurahan";
+// import Masterkelurahan from "./components/kelurahan/Masterkelurahan";
+// import Inputkelurahan from "./components/kelurahan/Inputkelurahan";
+// import Editkelurahan from "./components/kelurahan/Editkelurahan";
 
-import Masterjabatan from "./components/jabatan/Masterjabatan";
-import Inputjabatan from "./components/jabatan/Inputjabatan";
-import Editjabatan from "./components/jabatan/Editjabatan";
+// import Masterjabatan from "./components/jabatan/Masterjabatan";
+// import Inputjabatan from "./components/jabatan/Inputjabatan";
+// import Editjabatan from "./components/jabatan/Editjabatan";
 
-import Masterabsen from "./components/absen/Masterabsen";
+// import Masterabsen from "./components/absen/Masterabsen";
 
-import NotFound from "./components/NotFound";
+// import NotFound from "./components/NotFound";
 
 const LazyMasterpegawai = React.lazy(() =>
   import("./components/pegawai/Masterpegawai")
@@ -29,6 +29,32 @@ const LazyInputpegawai = React.lazy(() =>
 const LazyEditpegawai = React.lazy(() =>
   import("./components/pegawai/Editpegawai")
 );
+
+const LazyMasterkelurahan = React.lazy(() =>
+  import("./components/kelurahan/Masterkelurahan")
+);
+const LazyInputkelurahan = React.lazy(() =>
+  import("./components/kelurahan/Inputkelurahan")
+);
+const LazyEditkelurahan = React.lazy(() =>
+  import("./components/kelurahan/Editkelurahan")
+);
+
+const LazyMasterjabatan = React.lazy(() =>
+  import("./components/jabatan/Masterjabatan")
+);
+const LazyInputjabatan = React.lazy(() =>
+  import("./components/jabatan/Inputjabatan")
+);
+const LazyEditjabatan = React.lazy(() =>
+  import("./components/jabatan/Editjabatan")
+);
+
+const LazyMasterabsen = React.lazy(() =>
+  import("./components/absen/Masterabsen")
+);
+
+const LazyNotFound = React.lazy(() => import("./components/NotFound"));
 
 function App() {
   return (
@@ -62,16 +88,72 @@ function App() {
           }
         />
 
-        <Route path="/masterkelurahan" element={<Masterkelurahan />} />
-        <Route path="/masterkelurahan/add" element={<Inputkelurahan />} />
-        <Route path="/masterkelurahan/edit/:kode" element={<Editkelurahan />} />
+        <Route
+          path="/masterkelurahan"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyMasterkelurahan />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/masterkelurahan/add"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyInputkelurahan />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/masterkelurahan/edit/:kode"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyEditkelurahan />
+            </React.Suspense>
+          }
+        />
 
-        <Route path="/masterjabatan" element={<Masterjabatan />} />
-        <Route path="/masterjabatan/add" element={<Inputjabatan />} />
-        <Route path="/masterjabatan/edit/:kode" element={<Editjabatan />} />
+        <Route
+          path="/masterjabatan"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyMasterjabatan />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/masterjabatan/add"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyInputjabatan />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/masterjabatan/edit/:kode"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyEditjabatan />
+            </React.Suspense>
+          }
+        />
 
-        <Route path="/masterabsen" element={<Masterabsen />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/masterabsen"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyMasterabsen />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyNotFound />
+            </React.Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
