@@ -1,10 +1,12 @@
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
-import Masterpegawai from "./components/pegawai/Masterpegawai";
-import Inputpegawai from "./components/pegawai/Inputpegawai";
-import Editpegawai from "./components/pegawai/Editpegawai";
+
+// import Masterpegawai from "./components/pegawai/Masterpegawai";
+// import Inputpegawai from "./components/pegawai/Inputpegawai";
+// import Editpegawai from "./components/pegawai/Editpegawai";
 
 import Masterkelurahan from "./components/kelurahan/Masterkelurahan";
 import Inputkelurahan from "./components/kelurahan/Inputkelurahan";
@@ -18,6 +20,16 @@ import Masterabsen from "./components/absen/Masterabsen";
 
 import NotFound from "./components/NotFound";
 
+const LazyMasterpegawai = React.lazy(() =>
+  import("./components/pegawai/Masterpegawai")
+);
+const LazyInputpegawai = React.lazy(() =>
+  import("./components/pegawai/Inputpegawai")
+);
+const LazyEditpegawai = React.lazy(() =>
+  import("./components/pegawai/Editpegawai")
+);
+
 function App() {
   return (
     <BrowserRouter>
@@ -25,9 +37,30 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/masterpegawai" element={<Masterpegawai />} />
-        <Route path="/masterpegawai/add" element={<Inputpegawai />} />
-        <Route path="/masterpegawai/edit/:nip" element={<Editpegawai />} />
+        <Route
+          path="/masterpegawai"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyMasterpegawai />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/masterpegawai/add"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyInputpegawai />
+            </React.Suspense>
+          }
+        />
+        <Route
+          path="/masterpegawai/edit/:nip"
+          element={
+            <React.Suspense fallback="Loading...">
+              <LazyEditpegawai />
+            </React.Suspense>
+          }
+        />
 
         <Route path="/masterkelurahan" element={<Masterkelurahan />} />
         <Route path="/masterkelurahan/add" element={<Inputkelurahan />} />
