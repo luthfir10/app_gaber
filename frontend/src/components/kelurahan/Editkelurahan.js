@@ -13,11 +13,10 @@ import {
 } from "react-bootstrap";
 
 const Editkelurahan = () => {
-  const [kode, setKode] = useState("");
   const [nama, setNama] = useState("");
   const [alamat, setAlamat] = useState("");
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { kode } = useParams();
   const [validation, setValidation] = useState({});
 
   useEffect(() => {
@@ -25,9 +24,8 @@ const Editkelurahan = () => {
   }, []);
 
   const getKelurahanById = async () => {
-    const response = await axios.get(`http://localhost:5000/kelurahan/${id}`);
+    const response = await axios.get(`http://localhost:5000/kelurahan/${kode}`);
     const data = await response.data.result;
-    setKode(data.kode);
     setNama(data.nama);
     setAlamat(data.alamat);
   };
@@ -35,7 +33,7 @@ const Editkelurahan = () => {
   const updateKelurahan = async (e) => {
     e.preventDefault();
     await axios
-      .patch(`http://localhost:5000/kelurahan/${id}`, {
+      .patch(`http://localhost:5000/kelurahan/${kode}`, {
         nama: nama,
         alamat: alamat,
       })
@@ -68,7 +66,6 @@ const Editkelurahan = () => {
                   <Form.Label>Kode Kelurahan</Form.Label>
                   <Form.Control
                     value={kode}
-                    onChange={(e) => setKode(e.target.value)}
                     type="text"
                     placeholder="NIP Kelurahan"
                     disabled

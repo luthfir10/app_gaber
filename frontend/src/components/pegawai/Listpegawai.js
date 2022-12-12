@@ -133,7 +133,7 @@ const Listpegawai = () => {
                 </thead>
                 <tbody>
                   {datapegawais.map((datapegawai, index) => (
-                    <tr key={datapegawai.id}>
+                    <tr key={datapegawai.nip}>
                       <td align="center">{index + 1}</td>
                       <td>{datapegawai.nip}</td>
                       <td>{datapegawai.nama}</td>

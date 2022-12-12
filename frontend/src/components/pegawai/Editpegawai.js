@@ -27,6 +27,7 @@ const Editpegawai = () => {
   const getPegawaiById = async () => {
     const response = await axios.get(`http://localhost:5000/pegawais/${nip}`);
     const data = await response.data.result;
+    console.log(nip);
     setNama(data.nama);
     setTgl(data.tgl);
     setAlamat(data.alamat);

@@ -27,15 +27,15 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/masterpegawai" element={<Masterpegawai />} />
         <Route path="/masterpegawai/add" element={<Inputpegawai />} />
-        <Route path="/masterpegawai/edit/:id" element={<Editpegawai />} />
+        <Route path="/masterpegawai/edit/:nip" element={<Editpegawai />} />
 
         <Route path="/masterkelurahan" element={<Masterkelurahan />} />
         <Route path="/masterkelurahan/add" element={<Inputkelurahan />} />
-        <Route path="/masterkelurahan/edit/:id" element={<Editkelurahan />} />
+        <Route path="/masterkelurahan/edit/:kode" element={<Editkelurahan />} />
 
         <Route path="/masterjabatan" element={<Masterjabatan />} />
         <Route path="/masterjabatan/add" element={<Inputjabatan />} />
-        <Route path="/masterjabatan/edit/:id" element={<Editjabatan />} />
+        <Route path="/masterjabatan/edit/:kode" element={<Editjabatan />} />
 
         <Route path="/masterabsen" element={<Masterabsen />} />
         <Route path="*" element={<NotFound />} />

@@ -13,10 +13,9 @@ import {
 } from "react-bootstrap";
 
 const Editjabatan = () => {
-  const [kode, setKode] = useState("");
   const [nama, setNama] = useState("");
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { kode } = useParams();
   const [validation, setValidation] = useState({});
 
   useEffect(() => {
@@ -24,16 +23,15 @@ const Editjabatan = () => {
   }, []);
 
   const getJabatanById = async () => {
-    const response = await axios.get(`http://localhost:5000/jabatan/${id}`);
+    const response = await axios.get(`http://localhost:5000/jabatan/${kode}`);
     const data = await response.data.result;
-    setKode(data.kode);
     setNama(data.nama);
   };
 
   const updateJabatan = async (e) => {
     e.preventDefault();
     await axios
-      .patch(`http://localhost:5000/jabatan/${id}`, {
+      .patch(`http://localhost:5000/jabatan/${kode}`, {
         nama: nama,
       })
       .then(() => {
@@ -65,7 +63,6 @@ const Editjabatan = () => {
                   <Form.Label>Kode Jabatan</Form.Label>
                   <Form.Control
                     value={kode}
-                    onChange={(e) => setKode(e.target.value)}
                     type="text"
                     placeholder="Kode Jabatan"
                     disabled
