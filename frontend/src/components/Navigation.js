@@ -20,7 +20,11 @@ const Navigation = () => {
       {["lg"].map((expand) => (
         <Navbar key={expand} bg="light" expand={expand} className="mb-3">
           <Container fluid>
-            <Navbar.Brand href="#">SITTP</Navbar.Brand>
+            <Navbar.Brand>
+              <Link to="/" className="dropdown-item">
+                SITPP
+              </Link>
+            </Navbar.Brand>
             <Navbar.Toggle
               aria-controls={`offcanvasNavbar-expand-${expand}`}
               onClick={handleShow}
@@ -42,10 +46,7 @@ const Navigation = () => {
                   <Link to="/" className="nav-link" onClick={handleClose}>
                     Dashboard
                   </Link>
-                  <NavDropdown
-                    title="Master Data"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
+                  <NavDropdown title="Master Data" id="collasible-nav-dropdown">
                     <Link
                       to="/masterkelurahan"
                       className="dropdown-item"
@@ -68,16 +69,13 @@ const Navigation = () => {
                       Master Pegawai
                     </Link>
                   </NavDropdown>
+                  <Link to="/" className="nav-link" onClick={handleClose}>
+                    Proses
+                  </Link>
+                  <Link to="/" className="nav-link" onClick={handleClose}>
+                    Report
+                  </Link>
                 </Nav>
-                <Form className="d-flex">
-                  <Form.Control
-                    type="search"
-                    placeholder="Search"
-                    className="me-2"
-                    aria-label="Search"
-                  />
-                  <Button variant="outline-success">Search</Button>
-                </Form>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
           </Container>

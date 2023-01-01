@@ -8,12 +8,13 @@ const PegawaiModel = db.define(
   {
     nip: { type: DataTypes.BIGINT(18), primaryKey: true },
     nama: DataTypes.STRING,
-    kode_kelurahan: DataTypes.STRING,
-    kode_jabatan: DataTypes.STRING,
-    tgl: DataTypes.DATE,
+    kode_kelurahan: { type: DataTypes.STRING(5) },
+    kode_jabatan: { type: DataTypes.STRING(5) },
+    tgl: { type: DataTypes.DATEONLY },
     alamat: DataTypes.STRING,
   },
   {
+    timestamps: false,
     freezeTableName: true,
   }
 );

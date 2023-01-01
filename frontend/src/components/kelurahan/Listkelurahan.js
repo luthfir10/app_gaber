@@ -4,6 +4,9 @@ import axios from "axios";
 
 import MyPagination from "../assest/MyPagination";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../assest/fontawesome";
+
 import Table from "react-bootstrap/Table";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -142,7 +145,9 @@ const Listkelurahan = () => {
                         <Link
                           to={`/masterkelurahan/edit/${datakelurahan.kode}`}
                         >
-                          <Button variant="outline-warning">Edit</Button>
+                          <Button variant="outline-primary">
+                            <FontAwesomeIcon icon={["fa", "edit"]} size="lg" />
+                          </Button>
                         </Link>
                       </td>
                       <td align="center">
@@ -150,7 +155,10 @@ const Listkelurahan = () => {
                           variant="outline-danger"
                           onClick={() => handleShow(datakelurahan)}
                         >
-                          Delete
+                          <FontAwesomeIcon
+                            icon={["fa", "trash-alt"]}
+                            size="lg"
+                          />
                         </Button>
                       </td>
                     </tr>

@@ -16,6 +16,8 @@ const Inputpegawai = () => {
   const [nip, setNip] = useState("");
   const [nama, setNama] = useState("");
   const [tgl, setTgl] = useState("");
+  const [kdKelurhan, setkdKelurhan] = useState("");
+  const [kdJabatan, setkdJabatan] = useState("");
   const [alamat, setAlamat] = useState("");
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
@@ -44,6 +46,8 @@ const Inputpegawai = () => {
       .post(`http://localhost:5000/Pegawais`, {
         nip: nip,
         nama: nama,
+        kode_kelurahan: kdKelurhan,
+        kode_jabatan: kdJabatan,
         tgl: tgl,
         alamat: alamat,
       })
@@ -105,7 +109,10 @@ const Inputpegawai = () => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Penempatan Kerja</Form.Label>
-                  <Form.Select required>
+                  <Form.Select
+                    required
+                    onChange={(e) => setkdKelurhan(e.target.value)}
+                  >
                     <option>Pilih Penempatan</option>
                     {datakelurahans.map((datapenempatan) => (
                       <option
@@ -119,7 +126,10 @@ const Inputpegawai = () => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Jabatan</Form.Label>
-                  <Form.Select required>
+                  <Form.Select
+                    required
+                    onChange={(e) => setkdJabatan(e.target.value)}
+                  >
                     <option>Pilih Jabatan</option>
                     {datajabatans.map((datajabatan) => (
                       <option key={datajabatan.id} value={datajabatan.kode}>

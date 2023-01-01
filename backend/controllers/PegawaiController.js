@@ -1,6 +1,14 @@
 import { Op } from "sequelize";
 
 import PegawaiModel from "../models/PegawaiModel.js";
+import KelurahanModel from "../models/KelurahanModel.js";
+import JabatanModel from "../models/JabatanModel.js";
+
+KelurahanModel.hasMany(PegawaiModel, { foreignKey: "kode_kelurahan" });
+PegawaiModel.belongsTo(KelurahanModel, { foreignKey: "kode_kelurahan" });
+
+JabatanModel.hasMany(PegawaiModel, { foreignKey: "kode_jabatan" });
+PegawaiModel.belongsTo(JabatanModel, { foreignKey: "kode_jabatan" });
 
 export const getPegawai = async (req, res) => {
   const page = parseInt(req.query.page) || 0;
@@ -39,6 +47,14 @@ export const getPegawai = async (req, res) => {
         },
       ],
     },
+    include: [
+      {
+        model: KelurahanModel,
+      },
+      {
+        model: JabatanModel,
+      },
+    ],
     offset: offset,
     limit: limit,
     order: [["nip", "ASC"]],
@@ -58,6 +74,14 @@ export const getPegawaiById = async (req, res) => {
       where: {
         nip: req.params.nip,
       },
+      include: [
+        {
+          model: KelurahanModel,
+        },
+        {
+          model: JabatanModel,
+        },
+      ],
     });
     res.json({
       result: result,

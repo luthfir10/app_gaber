@@ -4,6 +4,9 @@ import axios from "axios";
 
 import MyPagination from "../assest/MyPagination";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../assest/fontawesome";
+
 import Table from "react-bootstrap/Table";
 import { Card, Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
@@ -127,6 +130,8 @@ const Listpegawai = () => {
                     <th>#</th>
                     <th>NIP Pegawai</th>
                     <th>Nama Pegawai</th>
+                    <th>Jabatan</th>
+                    <th>Kelurahan</th>
                     <th>Tanggal Lahir</th>
                     <th colSpan={2}>Aksi</th>
                   </tr>
@@ -137,10 +142,14 @@ const Listpegawai = () => {
                       <td align="center">{index + 1}</td>
                       <td>{datapegawai.nip}</td>
                       <td>{datapegawai.nama}</td>
+                      <td>{datapegawai.jabatan.nama}</td>
+                      <td>{datapegawai.kelurahan.nama}</td>
                       <td>{datapegawai.tgl}</td>
                       <td align="center">
                         <Link to={`/masterpegawai/edit/${datapegawai.nip}`}>
-                          <Button variant="outline-warning">Edit</Button>
+                          <Button variant="outline-primary">
+                            <FontAwesomeIcon icon={["fa", "edit"]} size="lg" />
+                          </Button>
                         </Link>
                       </td>
                       <td align="center">
@@ -148,7 +157,10 @@ const Listpegawai = () => {
                           variant="outline-danger"
                           onClick={() => handleShow(datapegawai)}
                         >
-                          Delete
+                          <FontAwesomeIcon
+                            icon={["fa", "trash-alt"]}
+                            size="lg"
+                          />
                         </Button>
                       </td>
                     </tr>

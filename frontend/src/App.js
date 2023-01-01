@@ -63,106 +63,40 @@ function App() {
     <BrowserRouter>
       <Navigation />
 
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route
-          path="/masterpegawai"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyMasterpegawai />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="/masterpegawai/add"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyInputpegawai />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="/masterpegawai/edit/:nip"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyEditpegawai />
-            </React.Suspense>
-          }
-        />
+      <React.Suspense
+        fallback={
+          <Spinner animation="border" role="status" variant="success">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/masterpegawai" element={<LazyMasterpegawai />} />
+          <Route path="/masterpegawai/add" element={<LazyInputpegawai />} />
+          <Route
+            path="/masterpegawai/edit/:nip"
+            element={<LazyEditpegawai />}
+          />
 
-        <Route
-          path="/masterkelurahan"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyMasterkelurahan />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="/masterkelurahan/add"
-          element={
-            <React.Suspense
-              fallback={
-                <Spinner animation="border" role="status" variant="success">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>
-              }
-            >
-              <LazyInputkelurahan />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="/masterkelurahan/edit/:kode"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyEditkelurahan />
-            </React.Suspense>
-          }
-        />
+          <Route path="/masterkelurahan" element={<LazyMasterkelurahan />} />
+          <Route path="/masterkelurahan/add" element={<LazyInputkelurahan />} />
+          <Route
+            path="/masterkelurahan/edit/:kode"
+            element={<LazyEditkelurahan />}
+          />
 
-        <Route
-          path="/masterjabatan"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyMasterjabatan />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="/masterjabatan/add"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyInputjabatan />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="/masterjabatan/edit/:kode"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyEditjabatan />
-            </React.Suspense>
-          }
-        />
+          <Route path="/masterjabatan" element={<LazyMasterjabatan />} />
+          <Route path="/masterjabatan/add" element={<LazyInputjabatan />} />
+          <Route
+            path="/masterjabatan/edit/:kode"
+            element={<LazyEditjabatan />}
+          />
 
-        <Route
-          path="/masterabsen"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyMasterabsen />
-            </React.Suspense>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <React.Suspense fallback="Loading...">
-              <LazyNotFound />
-            </React.Suspense>
-          }
-        />
-      </Routes>
+          <Route path="/masterabsen" element={<LazyMasterabsen />} />
+          <Route path="*" element={<LazyNotFound />} />
+        </Routes>
+      </React.Suspense>
     </BrowserRouter>
   );
 }

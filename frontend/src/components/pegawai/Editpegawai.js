@@ -16,12 +16,21 @@ const Editpegawai = () => {
   const [nama, setNama] = useState("");
   const [tgl, setTgl] = useState("");
   const [alamat, setAlamat] = useState("");
+  const [kodeJabatan, setkodeJabatan] = useState("");
+  const [namaJabatan, setnamaJabatan] = useState("");
+  const [kodeKelurahan, setkodeKelurahan] = useState("");
+  const [namaKelurahan, setnamaKelurahan] = useState("");
   const navigate = useNavigate();
   const { nip } = useParams();
   const [validation, setValidation] = useState({});
 
+  const [datakelurahans, setDatakelurahans] = useState([]);
+  const [datajabatans, setDatajabatans] = useState([]);
+
   useEffect(() => {
     getPegawaiById();
+    getPenempatan();
+    getJabatan();
   }, []);
 
   const getPegawaiById = async () => {
@@ -31,6 +40,20 @@ const Editpegawai = () => {
     setNama(data.nama);
     setTgl(data.tgl);
     setAlamat(data.alamat);
+    setkodeJabatan(data.kode_jabatan);
+    setnamaJabatan(data.jabatan.nama);
+    setkodeKelurahan(data.kode_kelurahan);
+    setnamaKelurahan(data.kelurahan.nama);
+  };
+
+  const getPenempatan = async () => {
+    const response = await axios.get(`http://localhost:5000/kelurahan`);
+    setDatakelurahans(response.data.result);
+  };
+
+  const getJabatan = async () => {
+    const response = await axios.get(`http://localhost:5000/jabatan`);
+    setDatajabatans(response.data.result);
   };
 
   const updatePegawai = async (e) => {
@@ -39,6 +62,8 @@ const Editpegawai = () => {
       .patch(`http://localhost:5000/pegawais/${nip}`, {
         nama: nama,
         tgl: tgl,
+        kode_kelurahan: kodeKelurahan,
+        kode_jabatan: kodeJabatan,
         alamat: alamat,
       })
       .then(() => {
@@ -95,6 +120,37 @@ const Editpegawai = () => {
                     type="date"
                     required
                   />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Jabatan</Form.Label>
+                  <Form.Select
+                    required
+                    onChange={(e) => setkodeJabatan(e.target.value)}
+                  >
+                    <option value={kodeJabatan}>{namaJabatan}</option>
+                    {datajabatans.map((datajabatan) => (
+                      <option key={datajabatan.id} value={datajabatan.kode}>
+                        {datajabatan.nama}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Penempatan Kerja</Form.Label>
+                  <Form.Select
+                    required
+                    onChange={(e) => setkodeKelurahan(e.target.value)}
+                  >
+                    <option value={kodeKelurahan}>{namaKelurahan}</option>
+                    {datakelurahans.map((datapenempatan) => (
+                      <option
+                        key={datapenempatan.id}
+                        value={datapenempatan.kode}
+                      >
+                        {datapenempatan.nama}
+                      </option>
+                    ))}
+                  </Form.Select>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Alamat</Form.Label>
