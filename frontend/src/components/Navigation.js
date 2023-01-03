@@ -1,9 +1,7 @@
 import { useState } from "react";
 
 import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -69,8 +67,12 @@ const Navigation = () => {
                       Master Pegawai
                     </Link>
                   </NavDropdown>
-                  <Link to="/" className="nav-link" onClick={handleClose}>
-                    Proses
+                  <Link
+                    to="/masterabsen"
+                    className="nav-link"
+                    onClick={handleClose}
+                  >
+                    Pemotongan Kehadiran
                   </Link>
                   <Link to="/" className="nav-link" onClick={handleClose}>
                     Report

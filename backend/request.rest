@@ -1,1 +1,1 @@
-GET http://localhost:5000/pegawais/199408102014042201
+GET http://localhost:5000/absen
