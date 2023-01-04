@@ -7,13 +7,15 @@ AbsenModel.belongsTo(PegawaiModel, { foreignKey: "nip" });
 export const getNip = async (req, res) => {
   const bulan = req.params.bulan;
   const tahun = req.params.tahun;
-  if (bulan !== undefined && tahun !== null) {
+  if (bulan !== null && tahun !== "") {
     const nippegawai = await PegawaiModel.findAll({
-      attributes: ["nip"],
-      order: [["nip", "ASC"]],
+      attributes: ["nip", "nama"],
+      order: [["kode_kelurahan", "ASC"]],
     });
-
-    res.status(200).json({ nippegawai });
+    console.log(bulan + " " + tahun);
+    res.json({
+      result: nippegawai,
+    });
   } else {
     res.status(200).json("data belum lengkap!!");
   }

@@ -113,7 +113,7 @@ const Inputpegawai = () => {
                     required
                     onChange={(e) => setkdKelurhan(e.target.value)}
                   >
-                    <option>Pilih Penempatan</option>
+                    <option value="">Pilih Penempatan</option>
                     {datakelurahans.map((datapenempatan) => (
                       <option
                         key={datapenempatan.id}
@@ -130,7 +130,7 @@ const Inputpegawai = () => {
                     required
                     onChange={(e) => setkdJabatan(e.target.value)}
                   >
-                    <option>Pilih Jabatan</option>
+                    <option value="">Pilih Jabatan</option>
                     {datajabatans.map((datajabatan) => (
                       <option key={datajabatan.id} value={datajabatan.kode}>
                         {datajabatan.nama}

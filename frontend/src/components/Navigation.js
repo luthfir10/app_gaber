@@ -72,7 +72,7 @@ const Navigation = () => {
                     className="nav-link"
                     onClick={handleClose}
                   >
-                    Pemotongan Kehadiran
+                    Absen
                   </Link>
                   <Link to="/" className="nav-link" onClick={handleClose}>
                     Report

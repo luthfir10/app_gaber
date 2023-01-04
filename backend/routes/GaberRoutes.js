@@ -45,6 +45,6 @@ router.post("/jabatan", createJabatan);
 router.patch("/jabatan/:kode", updateJabatan);
 router.delete("/jabatan/:kode", deleteJabatan);
 
-router.get("/absen", getNip);
+router.get("/absen/:bulan&:tahun", getNip);
 
 export default router;
