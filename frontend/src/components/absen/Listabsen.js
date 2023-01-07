@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,26 @@ import Alert from "react-bootstrap/Alert";
 
 const Listabsen = ({ Dataabsen }) => {
   const [absenLengkap, setAbsenLengkap] = useState(Dataabsen);
+  const navigate = useNavigate();
+  const [validation, setValidation] = useState({});
+
+  const handleApiabsen = async () => {
+    let newarrayabsn = absenLengkap.map(function (item) {
+      delete item.nama;
+      return item;
+    });
+
+    await axios
+      .post(`http://localhost:5000/absen`, {
+        newarrayabsn,
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
+        setValidation(error.response.data);
+      });
+  };
 
   const changeJumTpp = (index) => (e) => {
     const myAbsenNext = [...absenLengkap];
@@ -119,7 +139,9 @@ const Listabsen = ({ Dataabsen }) => {
                 <Row>
                   <Col sm={12}>
                     <Col>
-                      <Button variant="primary">Save</Button>
+                      <Button variant="primary" onClick={handleApiabsen}>
+                        Save
+                      </Button>
                     </Col>
                     <Table striped bordered hover responsive>
                       <thead align="center">

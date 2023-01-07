@@ -22,7 +22,6 @@ const AbsenModel = db.define(
     psj3: { type: DataTypes.INTEGER(2) },
     psj4: { type: DataTypes.INTEGER(2) },
     clt: { type: DataTypes.INTEGER(2) },
-    pot_absen: { type: DataTypes.DECIMAL(15, 2) },
   },
   {
     timestamps: false,

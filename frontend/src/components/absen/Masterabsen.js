@@ -24,6 +24,8 @@ const Masterabsen = () => {
   const [validation, setValidation] = useState({});
 
   const gantiAbsen = dataabsen.map((i) => {
+    i["bulan"] = bulan;
+    i["tahun"] = tahun;
     i["jum_tpp"] = 0;
     i["tk"] = 0;
     i["ta"] = 0;
@@ -45,6 +47,7 @@ const Masterabsen = () => {
     const response = await axios.get(
       `http://localhost:5000/absen/${bulan}&${tahun}`
     );
+    console.log(response.data);
     setDataabsen(response.data.result);
     setTabelAbsen(true);
   };

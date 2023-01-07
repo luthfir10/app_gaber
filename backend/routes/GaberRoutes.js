@@ -23,7 +23,7 @@ import {
   deleteJabatan,
 } from "../controllers/JabatanController.js";
 
-import { getNip } from "../controllers/AbsenController.js";
+import { getNip, createAbsen } from "../controllers/AbsenController.js";
 
 const router = express.Router();
 
@@ -46,5 +46,6 @@ router.patch("/jabatan/:kode", updateJabatan);
 router.delete("/jabatan/:kode", deleteJabatan);
 
 router.get("/absen/:bulan&:tahun", getNip);
+router.post("/absen", createAbsen);
 
 export default router;
