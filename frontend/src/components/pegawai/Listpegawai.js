@@ -130,6 +130,7 @@ const Listpegawai = () => {
                     <th>#</th>
                     <th>NIP Pegawai</th>
                     <th>Nama Pegawai</th>
+                    <th>Gol</th>
                     <th>Jabatan</th>
                     <th>Kelurahan</th>
                     <th>Tanggal Lahir</th>
@@ -142,6 +143,7 @@ const Listpegawai = () => {
                       <td align="center">{index + 1}</td>
                       <td>{datapegawai.nip}</td>
                       <td>{datapegawai.nama}</td>
+                      <td>{datapegawai.gol}</td>
                       <td>{datapegawai.jabatan.nama}</td>
                       <td>{datapegawai.kelurahan.nama}</td>
                       <td>{datapegawai.tgl}</td>

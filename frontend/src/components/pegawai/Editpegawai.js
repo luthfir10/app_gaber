@@ -17,6 +17,7 @@ const Editpegawai = () => {
   const [tgl, setTgl] = useState("");
   const [alamat, setAlamat] = useState("");
   const [kodeJabatan, setkodeJabatan] = useState("");
+  const [gol, setGol] = useState("");
   const [namaJabatan, setnamaJabatan] = useState("");
   const [kodeKelurahan, setkodeKelurahan] = useState("");
   const [namaKelurahan, setnamaKelurahan] = useState("");
@@ -63,6 +64,7 @@ const Editpegawai = () => {
         nama: nama,
         tgl: tgl,
         kode_kelurahan: kodeKelurahan,
+        gol: gol,
         kode_jabatan: kodeJabatan,
         alamat: alamat,
       })
@@ -129,11 +131,22 @@ const Editpegawai = () => {
                   >
                     <option value={kodeJabatan}>{namaJabatan}</option>
                     {datajabatans.map((datajabatan) => (
-                      <option key={datajabatan.id} value={datajabatan.kode}>
+                      <option key={datajabatan.kode} value={datajabatan.kode}>
                         {datajabatan.nama}
                       </option>
                     ))}
                   </Form.Select>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Golongan Pegawai</Form.Label>
+                  <Form.Control
+                    value={gol}
+                    maxLength="10"
+                    onChange={(e) => setGol(e.target.value)}
+                    type="text"
+                    placeholder="Golongan Pegawai"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Penempatan Kerja</Form.Label>
@@ -144,7 +157,7 @@ const Editpegawai = () => {
                     <option value={kodeKelurahan}>{namaKelurahan}</option>
                     {datakelurahans.map((datapenempatan) => (
                       <option
-                        key={datapenempatan.id}
+                        key={datapenempatan.kode}
                         value={datapenempatan.kode}
                       >
                         {datapenempatan.nama}

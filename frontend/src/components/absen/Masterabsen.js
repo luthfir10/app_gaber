@@ -23,15 +23,29 @@ const Masterabsen = () => {
 
   const [validation, setValidation] = useState({});
 
+  const gantiAbsen = dataabsen.map((i) => {
+    i["jum_tpp"] = 0;
+    i["tk"] = 0;
+    i["ta"] = 0;
+    i["tms"] = 0;
+    i["td1"] = 0;
+    i["td2"] = 0;
+    i["td3"] = 0;
+    i["td4"] = 0;
+    i["psj1"] = 0;
+    i["psj2"] = 0;
+    i["psj3"] = 0;
+    i["psj4"] = 0;
+    i["clt"] = 0;
+    return i;
+  });
+
   const showAbsen = async (e) => {
     e.preventDefault();
     const response = await axios.get(
       `http://localhost:5000/absen/${bulan}&${tahun}`
     );
     setDataabsen(response.data.result);
-    console.log(response.data.result);
-    console.log(bulan);
-    console.log(tahun);
     setTabelAbsen(true);
   };
   return (
@@ -91,14 +105,22 @@ const Masterabsen = () => {
 
                         <Row className="col-md-5 mx-auto">
                           <Col>
-                            <Link to="/masterabsen">
-                              <Button variant="primary">Check</Button>
-                            </Link>
+                            {tabelAbsen ? (
+                              <Link to="/masterabsen">
+                                <Button variant="primary">Cencel</Button>
+                              </Link>
+                            ) : (
+                              <Link to="/masterabsen">
+                                <Button variant="primary">Check</Button>
+                              </Link>
+                            )}
                           </Col>
                           <Col>
-                            <Button variant="primary" type="submit">
-                              Input Batu
-                            </Button>
+                            {tabelAbsen ? null : (
+                              <Button variant="primary" type="submit">
+                                Input
+                              </Button>
+                            )}
                           </Col>
                         </Row>
                       </form>
@@ -110,7 +132,7 @@ const Masterabsen = () => {
           </Col>
         </Row>
       </Container>
-      {tabelAbsen ? <Listabsen Dataabsen={dataabsen} /> : null}
+      {tabelAbsen ? <Listabsen Dataabsen={gantiAbsen} /> : null}
     </>
   );
 };

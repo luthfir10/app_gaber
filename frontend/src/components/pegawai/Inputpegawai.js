@@ -17,6 +17,7 @@ const Inputpegawai = () => {
   const [nama, setNama] = useState("");
   const [tgl, setTgl] = useState("");
   const [kdKelurhan, setkdKelurhan] = useState("");
+  const [gol, setGol] = useState("");
   const [kdJabatan, setkdJabatan] = useState("");
   const [alamat, setAlamat] = useState("");
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const Inputpegawai = () => {
         nip: nip,
         nama: nama,
         kode_kelurahan: kdKelurhan,
+        gol: gol,
         kode_jabatan: kdJabatan,
         tgl: tgl,
         alamat: alamat,
@@ -116,13 +118,24 @@ const Inputpegawai = () => {
                     <option value="">Pilih Penempatan</option>
                     {datakelurahans.map((datapenempatan) => (
                       <option
-                        key={datapenempatan.id}
+                        key={datapenempatan.kode}
                         value={datapenempatan.kode}
                       >
                         {datapenempatan.nama}
                       </option>
                     ))}
                   </Form.Select>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>Golongan Pegawai</Form.Label>
+                  <Form.Control
+                    value={gol}
+                    maxLength="10"
+                    onChange={(e) => setGol(e.target.value)}
+                    type="text"
+                    placeholder="Golongan Pegawai"
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Jabatan</Form.Label>
@@ -132,7 +145,7 @@ const Inputpegawai = () => {
                   >
                     <option value="">Pilih Jabatan</option>
                     {datajabatans.map((datajabatan) => (
-                      <option key={datajabatan.id} value={datajabatan.kode}>
+                      <option key={datajabatan.kode} value={datajabatan.kode}>
                         {datajabatan.nama}
                       </option>
                     ))}

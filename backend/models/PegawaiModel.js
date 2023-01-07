@@ -9,6 +9,7 @@ const PegawaiModel = db.define(
     nip: { type: DataTypes.BIGINT(18), primaryKey: true },
     nama: DataTypes.STRING,
     kode_kelurahan: { type: DataTypes.STRING(5) },
+    gol: { type: DataTypes.STRING(10) },
     kode_jabatan: { type: DataTypes.STRING(5) },
     tgl: { type: DataTypes.DATEONLY },
     alamat: DataTypes.STRING,
