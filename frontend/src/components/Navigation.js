@@ -74,6 +74,13 @@ const Navigation = () => {
                   >
                     Absen
                   </Link>
+                  <Link
+                    to="/mastertpp"
+                    className="nav-link"
+                    onClick={handleClose}
+                  >
+                    Besaran TPP
+                  </Link>
                   <Link to="/" className="nav-link" onClick={handleClose}>
                     Report
                   </Link>

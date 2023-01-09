@@ -17,18 +17,23 @@ export const getNip = async (req, res) => {
     if (validdata === 0) {
       const nippegawai = await PegawaiModel.findAll({
         attributes: ["nip", "nama"],
-        order: [["kode_kelurahan", "ASC"]],
+        order: [
+          ["kode_kelurahan", "ASC"],
+          ["kode_jabatan", "ASC"],
+        ],
       });
       res.json({
         result: nippegawai,
       });
     } else {
-      res.status(200).json("Bulan dan Tahun sudah di proses");
+      res.status(400).json({ message: "Bulan dan Tahun sudah di proses" });
     }
   } else {
-    res.status(200).json("data belum lengkap!!");
+    res.status(400).json({ message: "data belum lengkap!!" });
   }
 };
+
+// const absen_pemotongan = () => {};
 
 export const createAbsen = async (req, res) => {
   let absenarray = req.body.newarrayabsn;

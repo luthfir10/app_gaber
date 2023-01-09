@@ -3,8 +3,8 @@ import db from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const AbsenModel = db.define(
-  "absen",
+const TppModel = db.define(
+  "tpp",
   {
     nip: { type: DataTypes.BIGINT(18) },
     bulan: { type: DataTypes.INTEGER(2) },
@@ -22,7 +22,6 @@ const AbsenModel = db.define(
     psj3: { type: DataTypes.INTEGER(2) },
     psj4: { type: DataTypes.INTEGER(2) },
     clt: { type: DataTypes.INTEGER(2) },
-    tot_pot: { type: DataTypes.DECIMAL(15, 2) },
   },
   {
     timestamps: false,

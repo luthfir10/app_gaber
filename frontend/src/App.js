@@ -6,22 +6,6 @@ import Spinner from "react-bootstrap/Spinner";
 import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
 
-// import Masterpegawai from "./components/pegawai/Masterpegawai";
-// import Inputpegawai from "./components/pegawai/Inputpegawai";
-// import Editpegawai from "./components/pegawai/Editpegawai";
-
-// import Masterkelurahan from "./components/kelurahan/Masterkelurahan";
-// import Inputkelurahan from "./components/kelurahan/Inputkelurahan";
-// import Editkelurahan from "./components/kelurahan/Editkelurahan";
-
-// import Masterjabatan from "./components/jabatan/Masterjabatan";
-// import Inputjabatan from "./components/jabatan/Inputjabatan";
-// import Editjabatan from "./components/jabatan/Editjabatan";
-
-// import Masterabsen from "./components/absen/Masterabsen";
-
-// import NotFound from "./components/NotFound";
-
 const LazyMasterpegawai = React.lazy(() =>
   import("./components/pegawai/Masterpegawai")
 );
@@ -55,6 +39,8 @@ const LazyEditjabatan = React.lazy(() =>
 const LazyMasterabsen = React.lazy(() =>
   import("./components/absen/Masterabsen")
 );
+
+const LazyMasterTpp = React.lazy(() => import("./components/tpp/Mastertpp"));
 
 const LazyNotFound = React.lazy(() => import("./components/NotFound"));
 
@@ -94,6 +80,8 @@ function App() {
           />
 
           <Route path="/masterabsen" element={<LazyMasterabsen />} />
+          <Route path="/mastertpp" element={<LazyMasterTpp />} />
+
           <Route path="*" element={<LazyNotFound />} />
         </Routes>
       </React.Suspense>

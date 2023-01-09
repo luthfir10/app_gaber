@@ -12,9 +12,9 @@ import {
   Alert,
 } from "react-bootstrap";
 
-import Listabsen from "./Listabsen";
+import Listabsen from "../absen/Listabsen";
 
-const Masterabsen = () => {
+const Mastertpp = () => {
   const [bulan, setBulan] = useState("");
   const [tahun, setTahun] = useState("");
   const [dataabsen, setDataabsen] = useState([]);
@@ -44,15 +44,12 @@ const Masterabsen = () => {
 
   const showAbsen = async (e) => {
     e.preventDefault();
-    axios
-      .get(`http://localhost:5000/absen/${bulan}&${tahun}`)
-      .then((res) => {
-        setDataabsen(res.data.result);
-        setTabelAbsen(true);
-      })
-      .catch((error) => {
-        setValidation(error.response);
-      });
+    const response = await axios.get(
+      `http://localhost:5000/absen/${bulan}&${tahun}`
+    );
+    console.log(response.data);
+    setDataabsen(response.data.result);
+    setTabelAbsen(true);
   };
   return (
     <>
@@ -65,9 +62,13 @@ const Masterabsen = () => {
                 <Container>
                   <Row>
                     <Col sm={10}>
-                      {validation.data && (
+                      {validation.errors && (
                         <Alert variant="danger">
-                          {validation.data.message}
+                          <ul class="mt-0 mb-0">
+                            {validation.errors.map((error, index) => (
+                              <li key={index}>{`${error.msg}`}</li>
+                            ))}
+                          </ul>
                         </Alert>
                       )}
                       <form onSubmit={showAbsen}>
@@ -138,4 +139,4 @@ const Masterabsen = () => {
     </>
   );
 };
-export default Masterabsen;
+export default Mastertpp;

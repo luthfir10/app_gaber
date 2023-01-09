@@ -16,7 +16,8 @@ const Listabsen = ({ Dataabsen }) => {
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
 
-  const handleApiabsen = async () => {
+  const handleApiabsen = async (e) => {
+    e.preventDefault();
     let newarrayabsn = absenLengkap.map(function (item) {
       delete item.nama;
       return item;
@@ -138,178 +139,181 @@ const Listabsen = ({ Dataabsen }) => {
               <Container>
                 <Row>
                   <Col sm={12}>
-                    <Col>
-                      <Button variant="primary" onClick={handleApiabsen}>
-                        Save
-                      </Button>
-                    </Col>
-                    <Table striped bordered hover responsive>
-                      <thead align="center">
-                        <tr>
-                          <th rowSpan="2">Nama</th>
-                          <th rowSpan="2">NIP</th>
-                          <th rowSpan="2" style={{ width: 150 }}>
-                            Jumlah Tambahan Penghasilan Pegawai
-                          </th>
-                          <th rowSpan="2">Tanpa Keterangan</th>
-                          <th rowSpan="2" style={{ width: 70 }}>
-                            Tidak Apel
-                          </th>
-                          <th rowSpan="2">Tidak Senam / Wirid</th>
-                          <th colSpan="4">Terlambat datang (menit)</th>
-                          <th colSpan="4">Pulang sebelum jam kantor</th>
-                          <th rowSpan="2">Cuti lebih dari 3 minggu</th>
-                        </tr>
-                        <tr>
-                          <th style={{ width: 70 }}>1 s/d 30</th>
-                          <th style={{ width: 70 }}>31 s/d 60</th>
-                          <th style={{ width: 70 }}>61 s/d 90</th>
-                          <th style={{ width: 70 }}>91 s/d tidak absen</th>
-                          <th style={{ width: 70 }}>1 s/d 30</th>
-                          <th style={{ width: 70 }}>31 s/d 60</th>
-                          <th style={{ width: 70 }}>61 s/d 90</th>
-                          <th style={{ width: 70 }}>91 s/d tidak absen</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {absenLengkap.map((datajabatan, index) => (
-                          <tr key={index} style={{ fontSize: 13 }}>
-                            <td>{datajabatan.nama}</td>
-                            <td>{datajabatan.nip}</td>
-                            <td>
-                              <Form.Control
-                                name="jum_tpp"
-                                type="number"
-                                value={datajabatan.jum_tpp}
-                                min={0}
-                                onChange={changeJumTpp(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="tk"
-                                type="number"
-                                value={datajabatan.tk}
-                                min={0}
-                                onChange={changeTk(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="ta"
-                                type="number"
-                                value={datajabatan.ta}
-                                min={0}
-                                onChange={changeTa(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="tms"
-                                type="number"
-                                value={datajabatan.tms}
-                                min={0}
-                                onChange={changeTms(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="td1"
-                                type="number"
-                                value={datajabatan.td1}
-                                min={0}
-                                onChange={changeTd1(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="td2"
-                                type="number"
-                                value={datajabatan.td2}
-                                min={0}
-                                onChange={changeTd2(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="td3"
-                                type="number"
-                                value={datajabatan.td3}
-                                min={0}
-                                onChange={changeTd3(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="td4"
-                                type="number"
-                                value={datajabatan.td4}
-                                min={0}
-                                onChange={changeTd4(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="psj1"
-                                type="number"
-                                value={datajabatan.psj1}
-                                min={0}
-                                onChange={changePsj1(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="psj2"
-                                type="number"
-                                value={datajabatan.psj2}
-                                min={0}
-                                onChange={changePsj2(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="psj3"
-                                type="number"
-                                value={datajabatan.psj3}
-                                min={0}
-                                onChange={changePsj3(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="psj4"
-                                type="number"
-                                value={datajabatan.psj4}
-                                min={0}
-                                onChange={changePsj4(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
-                            <td>
-                              <Form.Control
-                                name="clt"
-                                type="number"
-                                value={datajabatan.clt}
-                                min={0}
-                                onChange={changeClt(datajabatan.nip)}
-                                placeholder="0"
-                              />
-                            </td>
+                    <form onSubmit={handleApiabsen}>
+                      <Col>
+                        <Button variant="primary" type="submit">
+                          Save
+                        </Button>
+                      </Col>
+                      <Table striped bordered hover responsive>
+                        <thead align="center">
+                          <tr>
+                            <th rowSpan="2">Nama</th>
+                            <th rowSpan="2">NIP</th>
+                            <th rowSpan="2" style={{ width: 150 }}>
+                              Jumlah Tambahan Penghasilan Pegawai
+                            </th>
+                            <th rowSpan="2">Tanpa Keterangan</th>
+                            <th rowSpan="2" style={{ width: 70 }}>
+                              Tidak Apel
+                            </th>
+                            <th rowSpan="2">Tidak Senam / Wirid</th>
+                            <th colSpan="4">Terlambat datang (menit)</th>
+                            <th colSpan="4">Pulang sebelum jam kantor</th>
+                            <th rowSpan="2">Cuti lebih dari 3 minggu</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                          <tr>
+                            <th style={{ width: 70 }}>1 s/d 30</th>
+                            <th style={{ width: 70 }}>31 s/d 60</th>
+                            <th style={{ width: 70 }}>61 s/d 90</th>
+                            <th style={{ width: 70 }}>91 s/d tidak absen</th>
+                            <th style={{ width: 70 }}>1 s/d 30</th>
+                            <th style={{ width: 70 }}>31 s/d 60</th>
+                            <th style={{ width: 70 }}>61 s/d 90</th>
+                            <th style={{ width: 70 }}>91 s/d tidak absen</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {absenLengkap.map((datajabatan, index) => (
+                            <tr key={index} style={{ fontSize: 13 }}>
+                              <td>{datajabatan.nama}</td>
+                              <td>{datajabatan.nip}</td>
+                              <td>
+                                <Form.Control
+                                  name="jum_tpp"
+                                  type="number"
+                                  value={datajabatan.jum_tpp}
+                                  min={0}
+                                  onChange={changeJumTpp(datajabatan.nip)}
+                                  placeholder="0"
+                                  required
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="tk"
+                                  type="number"
+                                  value={datajabatan.tk}
+                                  min={0}
+                                  onChange={changeTk(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="ta"
+                                  type="number"
+                                  value={datajabatan.ta}
+                                  min={0}
+                                  onChange={changeTa(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="tms"
+                                  type="number"
+                                  value={datajabatan.tms}
+                                  min={0}
+                                  onChange={changeTms(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="td1"
+                                  type="number"
+                                  value={datajabatan.td1}
+                                  min={0}
+                                  onChange={changeTd1(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="td2"
+                                  type="number"
+                                  value={datajabatan.td2}
+                                  min={0}
+                                  onChange={changeTd2(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="td3"
+                                  type="number"
+                                  value={datajabatan.td3}
+                                  min={0}
+                                  onChange={changeTd3(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="td4"
+                                  type="number"
+                                  value={datajabatan.td4}
+                                  min={0}
+                                  onChange={changeTd4(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="psj1"
+                                  type="number"
+                                  value={datajabatan.psj1}
+                                  min={0}
+                                  onChange={changePsj1(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="psj2"
+                                  type="number"
+                                  value={datajabatan.psj2}
+                                  min={0}
+                                  onChange={changePsj2(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="psj3"
+                                  type="number"
+                                  value={datajabatan.psj3}
+                                  min={0}
+                                  onChange={changePsj3(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="psj4"
+                                  type="number"
+                                  value={datajabatan.psj4}
+                                  min={0}
+                                  onChange={changePsj4(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                              <td>
+                                <Form.Control
+                                  name="clt"
+                                  type="number"
+                                  value={datajabatan.clt}
+                                  min={0}
+                                  onChange={changeClt(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </form>
                   </Col>
                 </Row>
               </Container>

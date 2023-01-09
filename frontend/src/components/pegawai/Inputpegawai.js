@@ -21,7 +21,7 @@ const Inputpegawai = () => {
   const [kdJabatan, setkdJabatan] = useState("");
   const [alamat, setAlamat] = useState("");
   const navigate = useNavigate();
-  const [validation, setValidation] = useState({});
+  const [validation, setValidation] = useState([]);
 
   const [datakelurahans, setDatakelurahans] = useState([]);
   const [datajabatans, setDatajabatans] = useState([]);
@@ -57,7 +57,7 @@ const Inputpegawai = () => {
         navigate("/masterpegawai");
       })
       .catch((error) => {
-        setValidation(error.response.data);
+        setValidation(error.response);
       });
   };
 
@@ -68,15 +68,11 @@ const Inputpegawai = () => {
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
               <Card.Title>Input Pegawai</Card.Title>
-              {validation.errors && (
-                <Alert variant="danger">
-                  <ul class="mt-0 mb-0">
-                    {validation.errors.map((error, index) => (
-                      <li key={index}>{`${error.msg}`}</li>
-                    ))}
-                  </ul>
-                </Alert>
+
+              {validation.data && (
+                <Alert variant="danger">{validation.data.message}</Alert>
               )}
+
               <form onSubmit={savePegawai}>
                 <Form.Group className="mb-3">
                   <Form.Label>NIP</Form.Label>

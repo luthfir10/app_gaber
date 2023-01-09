@@ -42,6 +42,7 @@ const Editpegawai = () => {
     setTgl(data.tgl);
     setAlamat(data.alamat);
     setkodeJabatan(data.kode_jabatan);
+    setGol(data.gol);
     setnamaJabatan(data.jabatan.nama);
     setkodeKelurahan(data.kode_kelurahan);
     setnamaKelurahan(data.kelurahan.nama);

@@ -92,11 +92,21 @@ export const getPegawaiById = async (req, res) => {
 };
 
 export const createPegawai = async (req, res) => {
+  const validnip = await PegawaiModel.count({
+    where: {
+      nip: req.body.nip,
+    },
+  });
+  if (validnip) {
+    return res.status(400).json({ message: "NIP already in use" });
+  }
+
   try {
     await PegawaiModel.create(req.body);
-    res.status(201).json({ msg: "Sukses Created Pegawai" });
+    res.status(201).json({ message: "Sukses Created Pegawai" });
   } catch (error) {
     console.log(error.message);
+    res.status(400).json({ message: "Internal Server Error" });
   }
 };
 
@@ -107,7 +117,7 @@ export const updatePegawai = async (req, res) => {
         nip: req.params.nip,
       },
     });
-    res.status(200).json({ msg: "Sukses Update Pegawai" });
+    res.status(200).json({ data: "Sukses Update Pegawai" });
   } catch (error) {
     console.log(error.message);
   }
@@ -120,7 +130,7 @@ export const deletePegawai = async (req, res) => {
         nip: req.params.nip,
       },
     });
-    res.status(200).json({ msg: "Sukses Delete Pegawai" });
+    res.status(200).json({ data: "Sukses Delete Pegawai" });
   } catch (error) {
     console.log(error.message);
   }
