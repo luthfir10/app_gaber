@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -12,45 +14,61 @@ import {
   Alert,
 } from "react-bootstrap";
 
-import Listabsen from "../absen/Listabsen";
+import ListTpp from "./ListTpp";
 
 const Mastertpp = () => {
-  const [bulan, setBulan] = useState("");
-  const [tahun, setTahun] = useState("");
-  const [dataabsen, setDataabsen] = useState([]);
-  const [tabelAbsen, setTabelAbsen] = useState(false);
-  const navigate = useNavigate();
+  const [bulantpp, setBulantpp] = useState("");
+  const [tahuntpp, setTahuntpp] = useState("");
+  const [bulanabsen, setBulanabsen] = useState("");
+  const [tahunabsen, setTahunabsen] = useState("");
+
+  const [datatpp, setDatatpp] = useState([]);
+  const [tabelAbsenTpp, setTabelAbsenTpp] = useState(false);
+
+  const [alertshow, setAlertShow] = useState(false);
 
   const [validation, setValidation] = useState({});
 
-  const gantiAbsen = dataabsen.map((i) => {
-    i["bulan"] = bulan;
-    i["tahun"] = tahun;
-    i["jum_tpp"] = 0;
-    i["tk"] = 0;
-    i["ta"] = 0;
-    i["tms"] = 0;
-    i["td1"] = 0;
-    i["td2"] = 0;
-    i["td3"] = 0;
-    i["td4"] = 0;
-    i["psj1"] = 0;
-    i["psj2"] = 0;
-    i["psj3"] = 0;
-    i["psj4"] = 0;
-    i["clt"] = 0;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/login");
+    }
+  }, [isError, navigate]);
+
+  const gantiAbsenTpp = datatpp.map((i) => {
+    i["bulan_tpp"] = bulantpp;
+    i["tahun_tpp"] = tahuntpp;
+    i["saldo_tpp"] = 0;
+    i["iur_sos"] = 0;
+    i["pemot_ll"] = 0;
+    i["nilskp"] = 0;
     return i;
   });
 
   const showAbsen = async (e) => {
     e.preventDefault();
-    const response = await axios.get(
-      `http://localhost:5000/absen/${bulan}&${tahun}`
-    );
-    console.log(response.data);
-    setDataabsen(response.data.result);
-    setTabelAbsen(true);
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/tpp/${bulantpp}&${tahuntpp}&${bulanabsen}&${tahunabsen}`
+      )
+      .then((res) => {
+        setDatatpp(res.data.result);
+        setTabelAbsenTpp(true);
+      })
+      .catch((error) => {
+        setValidation(error.response);
+        setAlertShow(true);
+      });
   };
+
   return (
     <>
       <Container className="mt-3">
@@ -58,58 +76,109 @@ const Mastertpp = () => {
           <Col md="{12}">
             <Card className="border-0 rounded shadow-sm">
               <Card.Body>
-                <Card.Title>Absen</Card.Title>
+                <Card.Title>
+                  Input Proses Tambahan Penghasilan Pegawai
+                </Card.Title>
                 <Container>
                   <Row>
-                    <Col sm={10}>
-                      {validation.errors && (
-                        <Alert variant="danger">
-                          <ul class="mt-0 mb-0">
-                            {validation.errors.map((error, index) => (
-                              <li key={index}>{`${error.msg}`}</li>
-                            ))}
-                          </ul>
+                    <Col sm={12}>
+                      {alertshow && (
+                        <Alert
+                          variant="danger"
+                          onClose={() => setAlertShow(false)}
+                          dismissible
+                        >
+                          {validation.data.message}
                         </Alert>
                       )}
                       <form onSubmit={showAbsen}>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Bulan</Form.Label>
-                          <Form.Select
-                            onChange={(e) => setBulan(e.target.value)}
-                            required
-                          >
-                            <option value="">Pilih Bulan</option>
-                            <option value="1">Januari</option>
-                            <option value="2">Februari</option>
-                            <option value="3">Maret</option>
-                            <option value="4">April</option>
-                            <option value="5">Mei</option>
-                            <option value="6">Juni</option>
-                            <option value="7">Juli</option>
-                            <option value="8">Agustus</option>
-                            <option value="9">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                          </Form.Select>
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Tahun</Form.Label>
-                          <Form.Control
-                            type="text"
-                            value={tahun}
-                            onChange={(e) => setTahun(e.target.value)}
-                            placeholder="Tahun"
-                            minLength="4"
-                            maxLength="4"
-                            required
-                          />
-                        </Form.Group>
+                        <Container>
+                          <Row>
+                            <Col>
+                              <Form.Group className="mb-3">
+                                <Form.Label>
+                                  Bulan dan Tahun Proses TPP
+                                </Form.Label>
+                                <Form.Select
+                                  onChange={(e) => setBulantpp(e.target.value)}
+                                  required
+                                >
+                                  <option value="">
+                                    Pilih Bulan Pemrosesan TPP
+                                  </option>
+                                  <option value="1">Januari</option>
+                                  <option value="2">Februari</option>
+                                  <option value="3">Maret</option>
+                                  <option value="4">April</option>
+                                  <option value="5">Mei</option>
+                                  <option value="6">Juni</option>
+                                  <option value="7">Juli</option>
+                                  <option value="8">Agustus</option>
+                                  <option value="9">September</option>
+                                  <option value="10">Oktober</option>
+                                  <option value="11">November</option>
+                                  <option value="12">Desember</option>
+                                </Form.Select>
+                              </Form.Group>
+                              <Form.Group className="mb-3">
+                                <Form.Label></Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  value={tahuntpp}
+                                  onChange={(e) => setTahuntpp(e.target.value)}
+                                  placeholder="Tahun Pemrosesan TPP"
+                                  minLength="4"
+                                  maxLength="4"
+                                  required
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col>
+                              <Form.Group className="mb-3">
+                                <Form.Label>Bulan dan Tahun Absen</Form.Label>
+                                <Form.Select
+                                  onChange={(e) =>
+                                    setBulanabsen(e.target.value)
+                                  }
+                                  required
+                                >
+                                  <option value="">Pilih Bulan Absen</option>
+                                  <option value="1">Januari</option>
+                                  <option value="2">Februari</option>
+                                  <option value="3">Maret</option>
+                                  <option value="4">April</option>
+                                  <option value="5">Mei</option>
+                                  <option value="6">Juni</option>
+                                  <option value="7">Juli</option>
+                                  <option value="8">Agustus</option>
+                                  <option value="9">September</option>
+                                  <option value="10">Oktober</option>
+                                  <option value="11">November</option>
+                                  <option value="12">Desember</option>
+                                </Form.Select>
+                              </Form.Group>
+                              <Form.Group className="mb-3">
+                                <Form.Label></Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  value={tahunabsen}
+                                  onChange={(e) =>
+                                    setTahunabsen(e.target.value)
+                                  }
+                                  placeholder="Tahun Absen"
+                                  minLength="4"
+                                  maxLength="4"
+                                  required
+                                />
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                        </Container>
 
                         <Row className="col-md-5 mx-auto">
                           <Col>
-                            {tabelAbsen ? (
-                              <Link to="/masterabsen">
+                            {tabelAbsenTpp ? (
+                              <Link to="/dashboard">
                                 <Button variant="primary">Cencel</Button>
                               </Link>
                             ) : (
@@ -119,7 +188,7 @@ const Mastertpp = () => {
                             )}
                           </Col>
                           <Col>
-                            {tabelAbsen ? null : (
+                            {tabelAbsenTpp ? null : (
                               <Button variant="primary" type="submit">
                                 Input
                               </Button>
@@ -135,7 +204,7 @@ const Mastertpp = () => {
           </Col>
         </Row>
       </Container>
-      {tabelAbsen ? <Listabsen Dataabsen={gantiAbsen} /> : null}
+      {tabelAbsenTpp ? <ListTpp DataTpp={gantiAbsenTpp} /> : null}
     </>
   );
 };

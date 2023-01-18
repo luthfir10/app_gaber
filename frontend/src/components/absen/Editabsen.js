@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
-const Listabsen = ({ Dataabsen }) => {
+const Editabsen = ({ Dataabsen }) => {
   const [absenLengkap, setAbsenLengkap] = useState(Dataabsen);
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
@@ -28,11 +28,19 @@ const Listabsen = ({ Dataabsen }) => {
         newarrayabsn,
       })
       .then(() => {
-        navigate("/dashboard");
+        navigate("/");
       })
       .catch((error) => {
         setValidation(error.response.data);
       });
+  };
+
+  const changeJumTpp = (index) => (e) => {
+    const myAbsenNext = [...absenLengkap];
+    const databaru = myAbsenNext.find((a) => a.nip === index);
+    databaru.jum_tpp = e.target.value;
+    setAbsenLengkap(myAbsenNext);
+    console.log(absenLengkap);
   };
 
   const changeTk = (index) => (e) => {
@@ -112,22 +120,26 @@ const Listabsen = ({ Dataabsen }) => {
     setAbsenLengkap(myAbsenNext);
   };
 
+  const changeClt = (index) => (e) => {
+    const myAbsenNext = [...absenLengkap];
+    const databaru = myAbsenNext.find((a) => a.nip === index);
+    databaru.clt = e.target.value;
+    setAbsenLengkap(myAbsenNext);
+  };
+
   useEffect(() => {}, []);
 
   return (
-    <Container className="mt-3" fluid>
+    <Container className="mt-3">
       <Row>
         <Col md={12}>
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
               <Card.Title>Input Absen</Card.Title>
-              <Container fluid>
+              <Container>
                 <Row>
                   <Col sm={12}>
-                    <form
-                      className="d-flex flex-column my-5 col-sm-12 col-md-6 form-control"
-                      onSubmit={handleApiabsen}
-                    >
+                    <form onSubmit={handleApiabsen}>
                       <Row className="col-md-5 mx-auto">
                         <Col>
                           <Link to="/masterabsen">
@@ -146,6 +158,9 @@ const Listabsen = ({ Dataabsen }) => {
                           <tr>
                             <th rowSpan="2">Nama</th>
                             <th rowSpan="2">NIP</th>
+                            <th rowSpan="2" style={{ width: 150 }}>
+                              Jumlah Tambahan Penghasilan Pegawai
+                            </th>
                             <th rowSpan="2">Tanpa Keterangan</th>
                             <th rowSpan="2" style={{ width: 70 }}>
                               Tidak Apel
@@ -153,6 +168,7 @@ const Listabsen = ({ Dataabsen }) => {
                             <th rowSpan="2">Tidak Senam / Wirid</th>
                             <th colSpan="4">Terlambat datang (menit)</th>
                             <th colSpan="4">Pulang sebelum jam kantor</th>
+                            <th rowSpan="2">Cuti lebih dari 3 minggu</th>
                           </tr>
                           <tr>
                             <th style={{ width: 70 }}>1 s/d 30</th>
@@ -170,6 +186,17 @@ const Listabsen = ({ Dataabsen }) => {
                             <tr key={index} style={{ fontSize: 13 }}>
                               <td>{datajabatan.nama}</td>
                               <td>{datajabatan.nip}</td>
+                              <td>
+                                <Form.Control
+                                  name="jum_tpp"
+                                  type="number"
+                                  value={datajabatan.jum_tpp}
+                                  min={0}
+                                  onChange={changeJumTpp(datajabatan.nip)}
+                                  placeholder="0"
+                                  required
+                                />
+                              </td>
                               <td>
                                 <Form.Control
                                   name="tk"
@@ -280,6 +307,16 @@ const Listabsen = ({ Dataabsen }) => {
                                   placeholder="0"
                                 />
                               </td>
+                              <td>
+                                <Form.Control
+                                  name="clt"
+                                  type="number"
+                                  value={datajabatan.clt}
+                                  min={0}
+                                  onChange={changeClt(datajabatan.nip)}
+                                  placeholder="0"
+                                />
+                              </td>
                             </tr>
                           ))}
                         </tbody>
@@ -295,4 +332,4 @@ const Listabsen = ({ Dataabsen }) => {
     </Container>
   );
 };
-export default Listabsen;
+export default Editabsen;

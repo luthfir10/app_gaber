@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe } from "../../features/authSlice";
 
 import {
   Card,
@@ -19,10 +21,23 @@ const Inputkelurahan = () => {
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
 
+  const dispatch = useDispatch();
+  const { isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/login");
+    }
+  }, [isError, navigate]);
+
   const saveKelurahan = async (e) => {
     e.preventDefault();
     await axios
-      .post(`http://localhost:5000/kelurahan`, {
+      .post(`${process.env.REACT_APP_API_URL}/kelurahan`, {
         kode: kode,
         nama: nama,
         alamat: alamat,

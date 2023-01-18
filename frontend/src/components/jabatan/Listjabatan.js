@@ -38,7 +38,7 @@ const Listjabatan = () => {
 
   const fetchData = async () => {
     const response = await axios.get(
-      `http://localhost:5000/jabatan?search_query=${keyword}&page=${page}&limit=${limit}`
+      `${process.env.REACT_APP_API_URL}/jabatan?search_query=${keyword}&page=${page}&limit=${limit}`
     );
     setDatajabatans(response.data.result);
     setPage(response.data.page);
@@ -69,7 +69,7 @@ const Listjabatan = () => {
 
   const deletejabatan = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/jabatan/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/jabatan/${id}`);
       fetchData();
     } catch (error) {
       console.log(error);

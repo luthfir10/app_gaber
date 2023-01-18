@@ -2,10 +2,10 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Spinner from "react-bootstrap/Spinner";
-
-import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
 
+const LazyHome = React.lazy(() => import("./components/aksesuser/Home"));
+const LazyDahsbord = React.lazy(() => import("./components/Dashboard"));
 const LazyMasterpegawai = React.lazy(() =>
   import("./components/pegawai/Masterpegawai")
 );
@@ -42,6 +42,12 @@ const LazyMasterabsen = React.lazy(() =>
 
 const LazyMasterTpp = React.lazy(() => import("./components/tpp/Mastertpp"));
 
+const LazyLogin = React.lazy(() => import("./components/login/LoginForm"));
+
+const LazyCekTpp = React.lazy(() =>
+  import("./components/aksesuser/cektpp/InputCekTpp")
+);
+
 const LazyNotFound = React.lazy(() => import("./components/NotFound"));
 
 function App() {
@@ -57,7 +63,8 @@ function App() {
         }
       >
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<LazyHome />} />
+          <Route path="/dashboard" element={<LazyDahsbord />} />
           <Route path="/masterpegawai" element={<LazyMasterpegawai />} />
           <Route path="/masterpegawai/add" element={<LazyInputpegawai />} />
           <Route
@@ -80,7 +87,12 @@ function App() {
           />
 
           <Route path="/masterabsen" element={<LazyMasterabsen />} />
+
           <Route path="/mastertpp" element={<LazyMasterTpp />} />
+
+          <Route path="/login" element={<LazyLogin />} />
+
+          <Route path="/cektpp" element={<LazyCekTpp />} />
 
           <Route path="*" element={<LazyNotFound />} />
         </Routes>

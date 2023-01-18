@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -19,12 +21,24 @@ const Editkelurahan = () => {
   const { kode } = useParams();
   const [validation, setValidation] = useState({});
 
+  const dispatch = useDispatch();
+  const { isError } = useSelector((state) => state.auth);
+
   useEffect(() => {
+    dispatch(getMe());
     getKelurahanById();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/login");
+    }
+  }, [isError, navigate]);
 
   const getKelurahanById = async () => {
-    const response = await axios.get(`http://localhost:5000/kelurahan/${kode}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/kelurahan/${kode}`
+    );
     const data = await response.data.result;
     setNama(data.nama);
     setAlamat(data.alamat);
@@ -33,7 +47,7 @@ const Editkelurahan = () => {
   const updateKelurahan = async (e) => {
     e.preventDefault();
     await axios
-      .patch(`http://localhost:5000/kelurahan/${kode}`, {
+      .patch(`${process.env.REACT_APP_API_URL}/kelurahan/${kode}`, {
         nama: nama,
         alamat: alamat,
       })

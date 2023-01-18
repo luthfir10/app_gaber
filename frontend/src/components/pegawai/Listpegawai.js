@@ -38,7 +38,7 @@ const Listpegawai = () => {
 
   const fetchData = async () => {
     const response = await axios.get(
-      `http://localhost:5000/pegawais?search_query=${keyword}&page=${page}&limit=${limit}`
+      `${process.env.REACT_APP_API_URL}/pegawais?search_query=${keyword}&page=${page}&limit=${limit}`
     );
     setDatapegawais(response.data.result);
     setPage(response.data.page);
@@ -69,7 +69,7 @@ const Listpegawai = () => {
 
   const deletePegawai = async (nip) => {
     try {
-      await axios.delete(`http://localhost:5000/pegawais/${nip}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/pegawais/${nip}`);
       fetchData();
     } catch (error) {
       console.log(error);

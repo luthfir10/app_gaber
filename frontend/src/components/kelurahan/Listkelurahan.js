@@ -38,7 +38,7 @@ const Listkelurahan = () => {
 
   const fetchData = async () => {
     const response = await axios.get(
-      `http://localhost:5000/kelurahan?search_query=${keyword}&page=${page}&limit=${limit}`
+      `${process.env.REACT_APP_API_URL}/kelurahan?search_query=${keyword}&page=${page}&limit=${limit}`
     );
     setDatakelurahans(response.data.result);
     setPage(response.data.page);
@@ -69,7 +69,7 @@ const Listkelurahan = () => {
 
   const deleteKelurahan = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/kelurahan/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/kelurahan/${id}`);
       fetchData();
     } catch (error) {
       console.log(error);

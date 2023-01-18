@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -28,14 +30,26 @@ const Editpegawai = () => {
   const [datakelurahans, setDatakelurahans] = useState([]);
   const [datajabatans, setDatajabatans] = useState([]);
 
+  const dispatch = useDispatch();
+  const { isError } = useSelector((state) => state.auth);
+
   useEffect(() => {
+    dispatch(getMe());
     getPegawaiById();
     getPenempatan();
     getJabatan();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/login");
+    }
+  }, [isError, navigate]);
 
   const getPegawaiById = async () => {
-    const response = await axios.get(`http://localhost:5000/pegawais/${nip}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/pegawais/${nip}`
+    );
     const data = await response.data.result;
     console.log(nip);
     setNama(data.nama);
@@ -49,19 +63,23 @@ const Editpegawai = () => {
   };
 
   const getPenempatan = async () => {
-    const response = await axios.get(`http://localhost:5000/kelurahan`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/kelurahan`
+    );
     setDatakelurahans(response.data.result);
   };
 
   const getJabatan = async () => {
-    const response = await axios.get(`http://localhost:5000/jabatan`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/jabatan`
+    );
     setDatajabatans(response.data.result);
   };
 
   const updatePegawai = async (e) => {
     e.preventDefault();
     await axios
-      .patch(`http://localhost:5000/pegawais/${nip}`, {
+      .patch(`${process.env.REACT_APP_API_URL}/pegawais/${nip}`, {
         nama: nama,
         tgl: tgl,
         kode_kelurahan: kodeKelurahan,

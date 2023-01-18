@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -18,12 +20,24 @@ const Editjabatan = () => {
   const { kode } = useParams();
   const [validation, setValidation] = useState({});
 
+  const dispatch = useDispatch();
+  const { isError } = useSelector((state) => state.auth);
+
   useEffect(() => {
+    dispatch(getMe());
     getJabatanById();
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/login");
+    }
+  }, [isError, navigate]);
 
   const getJabatanById = async () => {
-    const response = await axios.get(`http://localhost:5000/jabatan/${kode}`);
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/jabatan/${kode}`
+    );
     const data = await response.data.result;
     setNama(data.nama);
   };
@@ -31,7 +45,7 @@ const Editjabatan = () => {
   const updateJabatan = async (e) => {
     e.preventDefault();
     await axios
-      .patch(`http://localhost:5000/jabatan/${kode}`, {
+      .patch(`${process.env.REACT_APP_API_URL}/jabatan/${kode}`, {
         nama: nama,
       })
       .then(() => {

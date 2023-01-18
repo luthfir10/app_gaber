@@ -1,7 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+import React, { useState } from "react";
 import axios from "axios";
 
 import {
@@ -14,78 +11,36 @@ import {
   Alert,
 } from "react-bootstrap";
 
-import Listabsen from "./Listabsen";
+import GeneratPdf from "./GeneratPdf";
 
-const Masterabsen = () => {
+const InputCekTpp = () => {
   const [bulan, setBulan] = useState("");
   const [tahun, setTahun] = useState("");
-  const [dataabsen, setDataabsen] = useState([]);
-  const [tabelAbsen, setTabelAbsen] = useState(false);
-  const [tabelcek, setTabelcek] = useState(false);
-  const [disaktif, setDisaktif] = useState(false);
-  const navigate = useNavigate();
-  const [alertshow, setAlertShow] = useState(false);
+  const [nip, setNip] = useState("");
 
+  // const [tpppdf, setTpppdf] = useState(false);
+  const [alertshow, setAlertShow] = useState(false);
+  const [disaktif, setDisaktif] = useState(false);
   const [validation, setValidation] = useState({});
 
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
+  const showTpp = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/cektpp/${nip}&${bulan}&${tahun}`
+      );
+      GeneratPdf(response.data.result);
+    } catch (error) {
+      setValidation(error.response);
+      setAlertShow(true);
     }
-  }, [isError, navigate]);
-
-  const gantiAbsen = dataabsen.map((i) => {
-    i["bulan"] = bulan;
-    i["tahun"] = tahun;
-    i["tk"] = 0;
-    i["ta"] = 0;
-    i["tms"] = 0;
-    i["td1"] = 0;
-    i["td2"] = 0;
-    i["td3"] = 0;
-    i["td4"] = 0;
-    i["psj1"] = 0;
-    i["psj2"] = 0;
-    i["psj3"] = 0;
-    i["psj4"] = 0;
-    return i;
-  });
-
-  const showAbsen = async (e) => {
-    e.preventDefault();
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/absen/${bulan}&${tahun}`)
-      .then((res) => {
-        setDataabsen(res.data.result);
-        setTabelAbsen(true);
-        setDisaktif(true);
-      })
-      .catch((error) => {
-        setValidation(error.response);
-        setAlertShow(true);
-      });
   };
 
-  const CekAbsen = async (e) => {
-    e.preventDefault();
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/absen/${bulan}&${tahun}`)
-      .then((res) => {
-        setDataabsen(res.data.result);
-        setTabelAbsen(true);
-      })
-      .catch((error) => {
-        setValidation(error.response);
-        setAlertShow(true);
-      });
+  const resetVariabel = () => {
+    setNip("");
+    setTahun("");
   };
+
   return (
     <>
       <Container className="mt-3">
@@ -93,7 +48,7 @@ const Masterabsen = () => {
           <Col md="{12}">
             <Card className="border-0 rounded shadow-sm">
               <Card.Body>
-                <Card.Title>Absen</Card.Title>
+                <Card.Title>TPP</Card.Title>
                 <Container>
                   <Row>
                     <Col sm={10}>
@@ -106,7 +61,19 @@ const Masterabsen = () => {
                           {validation.data.message}
                         </Alert>
                       )}
-                      <form onSubmit={showAbsen}>
+                      <form>
+                        <Form.Group className="mb-3">
+                          <Form.Label>NIP</Form.Label>
+                          <Form.Control
+                            value={nip}
+                            onChange={(e) => setNip(e.target.value)}
+                            type="text"
+                            placeholder="NIP Pegawai"
+                            minLength="18"
+                            maxLength="18"
+                            required
+                          />
+                        </Form.Group>
                         <Form.Group className="mb-3">
                           <Form.Label>Bulan</Form.Label>
                           <Form.Select
@@ -145,19 +112,14 @@ const Masterabsen = () => {
 
                         <Row className="col-md-5 mx-auto">
                           <Col>
-                            <Link to="/masterabsen">
-                              <Button variant="primary">Cek</Button>
-                            </Link>
-                          </Col>
-                          <Col>
-                            <Button variant="primary" type="submit">
-                              Input
+                            <Button variant="primary" onClick={resetVariabel}>
+                              Reset
                             </Button>
                           </Col>
                           <Col>
-                            <Link to="/masterabsen">
-                              <Button variant="primary">Hapus</Button>
-                            </Link>
+                            <Button variant="primary" onClick={showTpp}>
+                              Cek
+                            </Button>
                           </Col>
                         </Row>
                       </form>
@@ -169,8 +131,25 @@ const Masterabsen = () => {
           </Col>
         </Row>
       </Container>
-      {tabelAbsen ? <Listabsen Dataabsen={gantiAbsen} /> : null}
+      {/* {tpppdf ? (
+        <Container className="mt-3">
+          <Row>
+            <Col md="{12}">
+              <Card className="border-0 rounded shadow-sm">
+                <Card.Body>
+                  <Card.Title></Card.Title>
+                  <Container>
+                    <Row>
+                      <Col><GeneratPdf datatpp={datta} /></Col>
+                    </Row>
+                  </Container>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      ) : null} */}
     </>
   );
 };
-export default Masterabsen;
+export default InputCekTpp;
