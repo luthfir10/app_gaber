@@ -15,32 +15,46 @@ const Editabsen = ({ Dataabsen }) => {
   const [absenLengkap, setAbsenLengkap] = useState(Dataabsen);
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
+  const [alertshow, setAlertShow] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+      navigate("/dashboard");
+    }, 3000);
+  };
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
+  };
 
   const handleApiabsen = async (e) => {
     e.preventDefault();
     let newarrayabsn = absenLengkap.map(function (item) {
-      delete item.nama;
+      delete item.pegawai.nip;
       return item;
     });
 
     await axios
-      .post(`${process.env.REACT_APP_API_URL}/absen`, {
+      .patch(`${process.env.REACT_APP_API_URL}/absen`, {
         newarrayabsn,
       })
-      .then(() => {
-        navigate("/");
+      .then((res) => {
+        notifSukses(res);
       })
       .catch((error) => {
-        setValidation(error.response.data);
+        notifError(error.response);
       });
-  };
-
-  const changeJumTpp = (index) => (e) => {
-    const myAbsenNext = [...absenLengkap];
-    const databaru = myAbsenNext.find((a) => a.nip === index);
-    databaru.jum_tpp = e.target.value;
-    setAbsenLengkap(myAbsenNext);
-    console.log(absenLengkap);
   };
 
   const changeTk = (index) => (e) => {
@@ -120,35 +134,38 @@ const Editabsen = ({ Dataabsen }) => {
     setAbsenLengkap(myAbsenNext);
   };
 
-  const changeClt = (index) => (e) => {
-    const myAbsenNext = [...absenLengkap];
-    const databaru = myAbsenNext.find((a) => a.nip === index);
-    databaru.clt = e.target.value;
-    setAbsenLengkap(myAbsenNext);
-  };
-
-  useEffect(() => {}, []);
-
   return (
-    <Container className="mt-3">
+    <Container className="mt-3" fluid>
       <Row>
         <Col md={12}>
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
-              <Card.Title>Input Absen</Card.Title>
-              <Container>
+              <Card.Title>Edit Absen</Card.Title>
+              <Container fluid>
                 <Row>
+                  {alertshow && (
+                    <Alert
+                      variant={notinfo}
+                      onClose={() => setAlertShow(false)}
+                      dismissible
+                    >
+                      {validation.data.message}
+                    </Alert>
+                  )}
                   <Col sm={12}>
-                    <form onSubmit={handleApiabsen}>
+                    <form
+                      className="d-flex flex-column my-5 col-sm-12 col-md-6 form-control"
+                      onSubmit={handleApiabsen}
+                    >
                       <Row className="col-md-5 mx-auto">
                         <Col>
-                          <Link to="/masterabsen">
-                            <Button variant="primary">Cencel</Button>
+                          <Link to="/dashboard">
+                            <Button variant="primary">Batal</Button>
                           </Link>
                         </Col>
                         <Col>
                           <Button variant="primary" type="submit">
-                            Save
+                            Update
                           </Button>
                         </Col>
                       </Row>
@@ -158,9 +175,6 @@ const Editabsen = ({ Dataabsen }) => {
                           <tr>
                             <th rowSpan="2">Nama</th>
                             <th rowSpan="2">NIP</th>
-                            <th rowSpan="2" style={{ width: 150 }}>
-                              Jumlah Tambahan Penghasilan Pegawai
-                            </th>
                             <th rowSpan="2">Tanpa Keterangan</th>
                             <th rowSpan="2" style={{ width: 70 }}>
                               Tidak Apel
@@ -168,7 +182,6 @@ const Editabsen = ({ Dataabsen }) => {
                             <th rowSpan="2">Tidak Senam / Wirid</th>
                             <th colSpan="4">Terlambat datang (menit)</th>
                             <th colSpan="4">Pulang sebelum jam kantor</th>
-                            <th rowSpan="2">Cuti lebih dari 3 minggu</th>
                           </tr>
                           <tr>
                             <th style={{ width: 70 }}>1 s/d 30</th>
@@ -184,19 +197,8 @@ const Editabsen = ({ Dataabsen }) => {
                         <tbody>
                           {absenLengkap.map((datajabatan, index) => (
                             <tr key={index} style={{ fontSize: 13 }}>
-                              <td>{datajabatan.nama}</td>
+                              <td>{datajabatan.pegawai.nama}</td>
                               <td>{datajabatan.nip}</td>
-                              <td>
-                                <Form.Control
-                                  name="jum_tpp"
-                                  type="number"
-                                  value={datajabatan.jum_tpp}
-                                  min={0}
-                                  onChange={changeJumTpp(datajabatan.nip)}
-                                  placeholder="0"
-                                  required
-                                />
-                              </td>
                               <td>
                                 <Form.Control
                                   name="tk"
@@ -304,16 +306,6 @@ const Editabsen = ({ Dataabsen }) => {
                                   value={datajabatan.psj4}
                                   min={0}
                                   onChange={changePsj4(datajabatan.nip)}
-                                  placeholder="0"
-                                />
-                              </td>
-                              <td>
-                                <Form.Control
-                                  name="clt"
-                                  type="number"
-                                  value={datajabatan.clt}
-                                  min={0}
-                                  onChange={changeClt(datajabatan.nip)}
                                   placeholder="0"
                                 />
                               </td>

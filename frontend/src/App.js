@@ -6,6 +6,9 @@ import Navigation from "./components/Navigation";
 
 const LazyHome = React.lazy(() => import("./components/aksesuser/Home"));
 const LazyDahsbord = React.lazy(() => import("./components/Dashboard"));
+const LazyMasteruser = React.lazy(() => import("./components/user/Masteruser"));
+const LazyInputuser = React.lazy(() => import("./components/user/Inputuser"));
+const LazyEdituser = React.lazy(() => import("./components/user/Edituser"));
 const LazyMasterpegawai = React.lazy(() =>
   import("./components/pegawai/Masterpegawai")
 );
@@ -65,6 +68,10 @@ function App() {
         <Routes>
           <Route path="/" element={<LazyHome />} />
           <Route path="/dashboard" element={<LazyDahsbord />} />
+          <Route path="/masteruser" element={<LazyMasteruser />} />
+          <Route path="/masteruser/add" element={<LazyInputuser />} />
+          <Route path="/masteruser/edit/:uuid" element={<LazyEdituser />} />
+
           <Route path="/masterpegawai" element={<LazyMasterpegawai />} />
           <Route path="/masterpegawai/add" element={<LazyInputpegawai />} />
           <Route

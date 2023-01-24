@@ -23,6 +23,10 @@ const Editjabatan = () => {
   const dispatch = useDispatch();
   const { isError } = useSelector((state) => state.auth);
 
+  const [alertshow, setAlertShow] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
+
   useEffect(() => {
     dispatch(getMe());
     getJabatanById();
@@ -44,16 +48,45 @@ const Editjabatan = () => {
 
   const updateJabatan = async (e) => {
     e.preventDefault();
-    await axios
-      .patch(`${process.env.REACT_APP_API_URL}/jabatan/${kode}`, {
-        nama: nama,
-      })
-      .then(() => {
-        navigate("/masterjabatan");
-      })
-      .catch((error) => {
-        setValidation(error.response.data.result);
-      });
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setValidated(true);
+    } else {
+      await axios
+        .patch(`${process.env.REACT_APP_API_URL}/jabatan/${kode}`, {
+          nama: nama,
+        })
+        .then((res) => {
+          notifSukses(res);
+          setValidated(false);
+        })
+        .catch((error) => {
+          notifError(error.response);
+          setValidated(false);
+        });
+    }
+  };
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+      navigate("/masterjabatan");
+    }, 3000);
+  };
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
   };
 
   return (
@@ -63,16 +96,16 @@ const Editjabatan = () => {
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
               <Card.Title>Edit Jabatan</Card.Title>
-              {validation.errors && (
-                <Alert variant="danger">
-                  <ul class="mt-0 mb-0">
-                    {validation.errors.map((error, index) => (
-                      <li key={index}>{`${error.param} : ${error.msg}`}</li>
-                    ))}
-                  </ul>
+              {alertshow && (
+                <Alert
+                  variant={notinfo}
+                  onClose={() => setAlertShow(false)}
+                  dismissible
+                >
+                  {validation.data.message}
                 </Alert>
               )}
-              <form onSubmit={updateJabatan}>
+              <Form noValidate validated={validated} onSubmit={updateJabatan}>
                 <Form.Group className="mb-3">
                   <Form.Label>Kode Jabatan</Form.Label>
                   <Form.Control
@@ -81,6 +114,9 @@ const Editjabatan = () => {
                     placeholder="Kode Jabatan"
                     disabled
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Kode jabatan tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Jabatan</Form.Label>
@@ -91,11 +127,14 @@ const Editjabatan = () => {
                     placeholder="Nama Jabatan"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Nama jabatan tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Row className="col-md-5 mx-auto">
                   <Col>
                     <Link to="/masterjabatan">
-                      <Button variant="primary">Cencel</Button>
+                      <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>
                   <Col>
@@ -104,7 +143,7 @@ const Editjabatan = () => {
                     </Button>
                   </Col>
                 </Row>
-              </form>
+              </Form>
             </Card.Body>
           </Card>
         </Col>

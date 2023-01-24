@@ -64,41 +64,80 @@ export const getJabatanById = async (req, res) => {
       result: result,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
 export const createJabatan = async (req, res) => {
+  const { kode, nama } = req.body;
+  if (kode === null || kode === "")
+    return res
+      .status(400)
+      .json({ message: "Kode jabatan tidak boleh kosong.!" });
+  const totalRows = await JabatanModel.count({
+    where: {
+      kode: kode,
+    },
+  });
+  if (totalRows > 0)
+    return res.status(400).json({ message: "Kode jabatan sudah digunakan.!" });
   try {
-    await JabatanModel.create(req.body);
-    res.status(201).json({ msg: "Sukses Created Jabatan" });
+    await JabatanModel.create({
+      kode: kode,
+      nama: nama,
+    });
+    res.status(201).json({ message: "Data berhasil disimpan." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
 
 export const updateJabatan = async (req, res) => {
-  try {
-    await JabatanModel.update(req.body, {
-      where: {
-        kode: req.params.kode,
-      },
+  const totalRows = await JabatanModel.findOne({
+    where: {
+      kode: req.params.kode,
+    },
+  });
+  if (!totalRows)
+    return res.status(404).json({
+      message: "Kode jabatan tidak terdaftar data gagal di update.!",
     });
-    res.status(200).json({ msg: "Sukses Update Jabatan" });
+  const { nama } = req.body;
+  try {
+    await JabatanModel.update(
+      {
+        nama: nama,
+      },
+      {
+        where: {
+          kode: req.params.kode,
+        },
+      }
+    );
+    res.status(201).json({ message: "Data berhasil diupdate." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
 
 export const deleteJabatan = async (req, res) => {
+  const totalRows = await JabatanModel.findOne({
+    where: {
+      kode: req.params.kode,
+    },
+  });
+  if (!totalRows)
+    return res.status(404).json({
+      message: "Kode tidak terdaftar data gagal di Hapus.!",
+    });
   try {
     await JabatanModel.destroy({
       where: {
         kode: req.params.kode,
       },
     });
-    res.status(200).json({ msg: "Sukses Delete Jabatan" });
+    res.status(201).json({ message: "Data berhasil dihapus." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };

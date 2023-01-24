@@ -15,18 +15,21 @@ import {
 } from "react-bootstrap";
 
 import Listabsen from "./Listabsen";
+import Editabsen from "./Editabsen";
 
 const Masterabsen = () => {
   const [bulan, setBulan] = useState("");
   const [tahun, setTahun] = useState("");
   const [dataabsen, setDataabsen] = useState([]);
   const [tabelAbsen, setTabelAbsen] = useState(false);
-  const [tabelcek, setTabelcek] = useState(false);
+  const [Dataedit, setDataedit] = useState([]);
+  const [tabelEdit, setTabelEdit] = useState(false);
   const [disaktif, setDisaktif] = useState(false);
   const navigate = useNavigate();
-  const [alertshow, setAlertShow] = useState(false);
 
   const [validation, setValidation] = useState({});
+  const [alertshow, setAlertShow] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
 
   const dispatch = useDispatch();
   const { isError } = useSelector((state) => state.auth);
@@ -60,32 +63,80 @@ const Masterabsen = () => {
 
   const showAbsen = async (e) => {
     e.preventDefault();
-    axios
+    await axios
       .get(`${process.env.REACT_APP_API_URL}/absen/${bulan}&${tahun}`)
       .then((res) => {
         setDataabsen(res.data.result);
+        setTabelEdit(false);
         setTabelAbsen(true);
         setDisaktif(true);
       })
       .catch((error) => {
-        setValidation(error.response);
-        setAlertShow(true);
+        notifError(error.response);
       });
   };
 
-  const CekAbsen = async (e) => {
-    e.preventDefault();
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/absen/${bulan}&${tahun}`)
-      .then((res) => {
-        setDataabsen(res.data.result);
-        setTabelAbsen(true);
-      })
-      .catch((error) => {
-        setValidation(error.response);
-        setAlertShow(true);
+  const EditAbsen = async () => {
+    if (bulan === "" || tahun === "") {
+      notifError({
+        data: {
+          message: "Harap Mengisi Bulan dan tahun",
+        },
       });
+    } else {
+      await axios
+        .get(`${process.env.REACT_APP_API_URL}/absen/edit/${bulan}&${tahun}`)
+        .then((res) => {
+          setDataedit(res.data.result);
+          console.log(res.data.result);
+          setTabelAbsen(false);
+          setTabelEdit(true);
+        })
+        .catch((error) => {
+          notifError(error.response);
+        });
+    }
   };
+
+  const handeleHapus = async () => {
+    if (bulan === "" || tahun === "") {
+      notifError({
+        data: {
+          message: "Harap Mengisi Bulan dan tahun",
+        },
+      });
+    } else {
+      await axios
+        .delete(`${process.env.REACT_APP_API_URL}/absen/${bulan}&${tahun}`)
+        .then((res) => {
+          notifSukses(res);
+        })
+        .catch((error) => {
+          notifError(error.response);
+        });
+    }
+  };
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+      navigate("/dashboard");
+    }, 3000);
+  };
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 4000);
+  };
+
   return (
     <>
       <Container className="mt-3">
@@ -99,7 +150,7 @@ const Masterabsen = () => {
                     <Col sm={10}>
                       {alertshow && (
                         <Alert
-                          variant="danger"
+                          variant={notinfo}
                           onClose={() => setAlertShow(false)}
                           dismissible
                         >
@@ -110,8 +161,8 @@ const Masterabsen = () => {
                         <Form.Group className="mb-3">
                           <Form.Label>Bulan</Form.Label>
                           <Form.Select
+                            value={bulan}
                             onChange={(e) => setBulan(e.target.value)}
-                            disabled={disaktif}
                             required
                           >
                             <option value="">Pilih Bulan</option>
@@ -138,15 +189,16 @@ const Masterabsen = () => {
                             placeholder="Tahun"
                             minLength="4"
                             maxLength="4"
-                            disabled={disaktif}
                             required
                           />
                         </Form.Group>
 
-                        <Row className="col-md-5 mx-auto">
+                        <Row>
                           <Col>
                             <Link to="/masterabsen">
-                              <Button variant="primary">Cek</Button>
+                              <Button variant="primary" onClick={EditAbsen}>
+                                Edit
+                              </Button>
                             </Link>
                           </Col>
                           <Col>
@@ -155,9 +207,9 @@ const Masterabsen = () => {
                             </Button>
                           </Col>
                           <Col>
-                            <Link to="/masterabsen">
-                              <Button variant="primary">Hapus</Button>
-                            </Link>
+                            <Button variant="primary" onClick={handeleHapus}>
+                              Hapus
+                            </Button>
                           </Col>
                         </Row>
                       </form>
@@ -170,6 +222,7 @@ const Masterabsen = () => {
         </Row>
       </Container>
       {tabelAbsen ? <Listabsen Dataabsen={gantiAbsen} /> : null}
+      {tabelEdit ? <Editabsen Dataabsen={Dataedit} /> : null}
     </>
   );
 };

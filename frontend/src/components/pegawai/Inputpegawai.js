@@ -31,6 +31,10 @@ const Inputpegawai = () => {
   const dispatch = useDispatch();
   const { isError } = useSelector((state) => state.auth);
 
+  const [alertshow, setAlertShow] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
+
   useEffect(() => {
     dispatch(getMe());
     getPenempatan();
@@ -59,22 +63,61 @@ const Inputpegawai = () => {
 
   const savePegawai = async (e) => {
     e.preventDefault();
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/Pegawais`, {
-        nip: nip,
-        nama: nama,
-        kode_kelurahan: kdKelurhan,
-        gol: gol,
-        kode_jabatan: kdJabatan,
-        tgl: tgl,
-        alamat: alamat,
-      })
-      .then(() => {
-        navigate("/masterpegawai");
-      })
-      .catch((error) => {
-        setValidation(error.response);
-      });
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setValidated(true);
+    } else {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/Pegawais`, {
+          nip: nip,
+          nama: nama,
+          kode_kelurahan: kdKelurhan,
+          gol: gol,
+          kode_jabatan: kdJabatan,
+          tgl: tgl,
+          alamat: alamat,
+        })
+        .then((res) => {
+          notifSukses(res);
+          resetVariabel();
+        })
+        .catch((error) => {
+          notifError(error.response);
+          setValidated(false);
+        });
+    }
+  };
+
+  const resetVariabel = () => {
+    setNip("");
+    setNama("");
+    setTgl("");
+    setkdKelurhan("");
+    setGol("");
+    setkdJabatan("");
+    setAlamat("");
+    setValidated(false);
+  };
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
+  };
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
   };
 
   return (
@@ -84,12 +127,16 @@ const Inputpegawai = () => {
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
               <Card.Title>Input Pegawai</Card.Title>
-
-              {validation.data && (
-                <Alert variant="danger">{validation.data.message}</Alert>
+              {alertshow && (
+                <Alert
+                  variant={notinfo}
+                  onClose={() => setAlertShow(false)}
+                  dismissible
+                >
+                  {validation.data.message}
+                </Alert>
               )}
-
-              <form onSubmit={savePegawai}>
+              <Form noValidate validated={validated} onSubmit={savePegawai}>
                 <Form.Group className="mb-3">
                   <Form.Label>NIP</Form.Label>
                   <Form.Control
@@ -101,6 +148,9 @@ const Inputpegawai = () => {
                     maxLength="18"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Nip tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Nama Pegawai</Form.Label>
@@ -111,6 +161,9 @@ const Inputpegawai = () => {
                     placeholder="Nama Pegawai"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Nama tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Tanggal Lahir</Form.Label>
@@ -120,10 +173,14 @@ const Inputpegawai = () => {
                     type="date"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Tanggal lahir tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Penempatan Kerja</Form.Label>
                   <Form.Select
+                    value={kdKelurhan}
                     required
                     onChange={(e) => setkdKelurhan(e.target.value)}
                   >
@@ -137,6 +194,9 @@ const Inputpegawai = () => {
                       </option>
                     ))}
                   </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    Penempatan kerja tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Golongan Pegawai</Form.Label>
@@ -148,10 +208,14 @@ const Inputpegawai = () => {
                     placeholder="Golongan Pegawai"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Golongan tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Jabatan</Form.Label>
                   <Form.Select
+                    value={kdJabatan}
                     required
                     onChange={(e) => setkdJabatan(e.target.value)}
                   >
@@ -162,6 +226,9 @@ const Inputpegawai = () => {
                       </option>
                     ))}
                   </Form.Select>
+                  <Form.Control.Feedback type="invalid">
+                    Jabatan tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Alamat</Form.Label>
@@ -172,21 +239,24 @@ const Inputpegawai = () => {
                     placeholder="Alamat Pegawai"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Alamat tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Row className="col-md-5 mx-auto">
                   <Col>
                     <Link to="/masterpegawai">
-                      <Button variant="primary">Cencel</Button>
+                      <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>
                   <Col>
                     <Button variant="primary" type="submit">
-                      Save
+                      Simpan
                     </Button>
                   </Col>
                 </Row>
-              </form>
+              </Form>
             </Card.Body>
           </Card>
         </Col>

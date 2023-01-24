@@ -15,6 +15,28 @@ const Listabsen = ({ Dataabsen }) => {
   const [absenLengkap, setAbsenLengkap] = useState(Dataabsen);
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
+  const [alertshow, setAlertShow] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+      navigate("/dashboard");
+    }, 3000);
+  };
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
+  };
 
   const handleApiabsen = async (e) => {
     e.preventDefault();
@@ -27,11 +49,11 @@ const Listabsen = ({ Dataabsen }) => {
       .post(`${process.env.REACT_APP_API_URL}/absen`, {
         newarrayabsn,
       })
-      .then(() => {
-        navigate("/dashboard");
+      .then((res) => {
+        notifSukses(res);
       })
       .catch((error) => {
-        setValidation(error.response.data);
+        notifError(error.response);
       });
   };
 
@@ -112,8 +134,6 @@ const Listabsen = ({ Dataabsen }) => {
     setAbsenLengkap(myAbsenNext);
   };
 
-  useEffect(() => {}, []);
-
   return (
     <Container className="mt-3" fluid>
       <Row>
@@ -123,6 +143,15 @@ const Listabsen = ({ Dataabsen }) => {
               <Card.Title>Input Absen</Card.Title>
               <Container fluid>
                 <Row>
+                  {alertshow && (
+                    <Alert
+                      variant={notinfo}
+                      onClose={() => setAlertShow(false)}
+                      dismissible
+                    >
+                      {validation.data.message}
+                    </Alert>
+                  )}
                   <Col sm={12}>
                     <form
                       className="d-flex flex-column my-5 col-sm-12 col-md-6 form-control"

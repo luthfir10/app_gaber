@@ -28,7 +28,11 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "http://192.168.43.54:3000"],
+    origin: [
+      "http://localhost:3000",
+      "http://192.168.43.54:3000",
+      "http://192.168.1.9:3000",
+    ],
   })
 );
 app.use(express.json());

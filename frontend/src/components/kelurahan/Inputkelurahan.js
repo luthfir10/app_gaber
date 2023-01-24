@@ -15,7 +15,7 @@ import {
 } from "react-bootstrap";
 
 const Inputkelurahan = () => {
-  const [kode, setNip] = useState("");
+  const [kode, setKode] = useState("");
   const [nama, setNama] = useState("");
   const [alamat, setAlamat] = useState("");
   const navigate = useNavigate();
@@ -23,6 +23,10 @@ const Inputkelurahan = () => {
 
   const dispatch = useDispatch();
   const { isError } = useSelector((state) => state.auth);
+
+  const [alertshow, setAlertShow] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
 
   useEffect(() => {
     dispatch(getMe());
@@ -36,18 +40,53 @@ const Inputkelurahan = () => {
 
   const saveKelurahan = async (e) => {
     e.preventDefault();
-    await axios
-      .post(`${process.env.REACT_APP_API_URL}/kelurahan`, {
-        kode: kode,
-        nama: nama,
-        alamat: alamat,
-      })
-      .then(() => {
-        navigate("/masterkelurahan");
-      })
-      .catch((error) => {
-        setValidation(error.response.data);
-      });
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setValidated(true);
+    } else {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/kelurahan`, {
+          kode: kode,
+          nama: nama,
+          alamat: alamat,
+        })
+        .then((res) => {
+          notifSukses(res);
+          resetVariabel();
+        })
+        .catch((error) => {
+          notifError(error.response);
+          setValidated(false);
+        });
+    }
+  };
+
+  const resetVariabel = () => {
+    setKode("");
+    setNama("");
+    setAlamat("");
+    setValidated(false);
+  };
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
+  };
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
   };
 
   return (
@@ -57,24 +96,28 @@ const Inputkelurahan = () => {
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
               <Card.Title>Input Kelurahan</Card.Title>
-              {validation.errors && (
-                <Alert variant="danger">
-                  <ul class="mt-0 mb-0">
-                    {validation.errors.map((error, index) => (
-                      <li key={index}>{`${error.msg}`}</li>
-                    ))}
-                  </ul>
+              {alertshow && (
+                <Alert
+                  variant={notinfo}
+                  onClose={() => setAlertShow(false)}
+                  dismissible
+                >
+                  {validation.data.message}
                 </Alert>
               )}
-              <form onSubmit={saveKelurahan}>
+              <Form noValidate validated={validated} onSubmit={saveKelurahan}>
                 <Form.Group className="mb-3">
                   <Form.Label>Kode Kelurahan</Form.Label>
                   <Form.Control
                     value={kode}
-                    onChange={(e) => setNip(e.target.value)}
+                    onChange={(e) => setKode(e.target.value)}
                     type="text"
                     placeholder="Kode Kelurahan"
+                    required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Kode tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Nama Kelurahan</Form.Label>
@@ -85,6 +128,9 @@ const Inputkelurahan = () => {
                     placeholder="Nama Kelurahan"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Nama tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Alamat</Form.Label>
@@ -92,24 +138,27 @@ const Inputkelurahan = () => {
                     value={alamat}
                     onChange={(e) => setAlamat(e.target.value)}
                     type="text"
-                    placeholder="Alamat Pegawai"
+                    placeholder="Alamat Kelurahan"
                     required
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Alamat tidak boleh kosong.!
+                  </Form.Control.Feedback>
                 </Form.Group>
 
                 <Row className="col-md-5 mx-auto">
                   <Col>
                     <Link to="/masterkelurahan">
-                      <Button variant="primary">Cencel</Button>
+                      <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>
                   <Col>
                     <Button variant="primary" type="submit">
-                      Save
+                      Simpan
                     </Button>
                   </Col>
                 </Row>
-              </form>
+              </Form>
             </Card.Body>
           </Card>
         </Col>

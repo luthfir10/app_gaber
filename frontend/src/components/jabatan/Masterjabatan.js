@@ -30,7 +30,7 @@ const Masterjabatan = () => {
             <Card.Header>Master Jabatan</Card.Header>
             <Card.Body>
               <Link to="/masterjabatan/add">
-                <Button variant="outline-primary">Add New</Button>
+                <Button variant="outline-primary">Tambah Baru</Button>
               </Link>
               <Listjabatan />
             </Card.Body>

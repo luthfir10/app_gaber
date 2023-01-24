@@ -64,41 +64,84 @@ export const getKeluruhanById = async (req, res) => {
       result: result,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
 export const createKelurahan = async (req, res) => {
+  const { kode, nama, alamat } = req.body;
+  if (kode === null || kode === "")
+    return res.status(400).json({ message: "Kode tidak boleh kosong.!" });
+  const totalRows = await KelurahanModel.count({
+    where: {
+      kode: kode,
+    },
+  });
+  if (totalRows > 0)
+    return res
+      .status(400)
+      .json({ message: "Kode sudah digunakan data gagal tersimpan.!" });
   try {
-    await KelurahanModel.create(req.body);
-    res.status(201).json({ msg: "Sukses Created Kelurahan" });
+    await KelurahanModel.create({
+      kode: kode,
+      nama: nama,
+      alamat: alamat,
+    });
+    res.status(201).json({ message: "Data berhasil disimpan." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
 
 export const updateKelurahan = async (req, res) => {
-  try {
-    await KelurahanModel.update(req.body, {
-      where: {
-        kode: req.params.kode,
-      },
+  const totalRows = await KelurahanModel.findOne({
+    where: {
+      kode: req.params.kode,
+    },
+  });
+  if (!totalRows)
+    return res.status(404).json({
+      message: "Kode tidak terdaftar data gagal di update.!",
     });
-    res.status(200).json({ msg: "Sukses Update Kelurahan" });
+  const { nama, alamat } = req.body;
+
+  try {
+    await KelurahanModel.update(
+      {
+        nama: nama,
+        alamat: alamat,
+      },
+      {
+        where: {
+          kode: req.params.kode,
+        },
+      }
+    );
+    res.status(201).json({ message: "Data berhasil diupdate." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
 
 export const deleteKelurahan = async (req, res) => {
+  const totalRows = await KelurahanModel.findOne({
+    where: {
+      kode: req.params.kode,
+    },
+  });
+  if (!totalRows)
+    return res.status(404).json({
+      message: "Kode tidak terdaftar data gagal di Hapus.!",
+    });
+
   try {
     await KelurahanModel.destroy({
       where: {
         kode: req.params.kode,
       },
     });
-    res.status(200).json({ msg: "Sukses Delete Kelurahan" });
+    res.status(201).json({ message: "Data berhasil dihapus." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };

@@ -31,7 +31,7 @@ const Masterkelurahan = () => {
             <Card.Header>Master Kecamatan / Kelurahan</Card.Header>
             <Card.Body>
               <Link to="/masterkelurahan/add">
-                <Button variant="outline-primary">Add New</Button>
+                <Button variant="outline-primary">Tambah Baru</Button>
               </Link>
               <Listkelurahan />
             </Card.Body>

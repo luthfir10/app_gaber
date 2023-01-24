@@ -16,14 +16,15 @@ import Alert from "react-bootstrap/Alert";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
-const Listkelurahan = () => {
-  const [datakelurahans, setDatakelurahans] = useState([]);
+const Listuser = () => {
+  const [datausers, setDatausers] = useState([]);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [pages, setPages] = useState(0);
   const [rows, setRows] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
+  const [msg, setMsg] = useState("");
 
   const [show, setShow] = useState(false);
   const [datadelete, setDatadelete] = useState([]);
@@ -43,9 +44,9 @@ const Listkelurahan = () => {
 
   const fetchData = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/kelurahan?search_query=${keyword}&page=${page}&limit=${limit}`
+      `${process.env.REACT_APP_API_URL}/users?search_query=${keyword}&page=${page}&limit=${limit}`
     );
-    setDatakelurahans(response.data.result);
+    setDatausers(response.data.result);
     setPage(response.data.page);
     setPages(response.data.totalpage);
     setRows(response.data.totalRows);
@@ -75,9 +76,9 @@ const Listkelurahan = () => {
     setKeyword(query);
   };
 
-  const deleteKelurahan = async (id) => {
+  const deleteUsers = async (id) => {
     await axios
-      .delete(`${process.env.REACT_APP_API_URL}/kelurahan/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/users/${id}`)
       .then((res) => {
         fetchData();
         notifSukses(res);
@@ -113,7 +114,7 @@ const Listkelurahan = () => {
         <Col md="{12}">
           <Card className="border-0 rounded shadow-sm">
             <Card.Body>
-              <Card.Title>List Data Kecamatan / Kelurahan</Card.Title>
+              <Card.Title>List Data User</Card.Title>
               <Container>
                 <Row>
                   {alertshow && (
@@ -168,23 +169,23 @@ const Listkelurahan = () => {
                 <thead align="center">
                   <tr>
                     <th>#</th>
-                    <th>Kode Kelurahan</th>
-                    <th>Nama Kelurahan</th>
-                    <th>Alamat</th>
+                    <th>UUID</th>
+                    <th>Nama User</th>
+                    <th>Username</th>
+                    <th>Role</th>
                     <th colSpan={2}>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {datakelurahans.map((datakelurahan, index) => (
-                    <tr key={datakelurahan.kode}>
+                  {datausers.map((datauser, index) => (
+                    <tr key={datauser.uuid}>
                       <td align="center">{index + 1}</td>
-                      <td>{datakelurahan.kode}</td>
-                      <td>{datakelurahan.nama}</td>
-                      <td>{datakelurahan.alamat}</td>
+                      <td>{datauser.uuid}</td>
+                      <td>{datauser.namauser}</td>
+                      <td>{datauser.username}</td>
+                      <td>{datauser.role}</td>
                       <td align="center">
-                        <Link
-                          to={`/masterkelurahan/edit/${datakelurahan.kode}`}
-                        >
+                        <Link to={`/masteruser/edit/${datauser.uuid}`}>
                           <OverlayTrigger
                             placement="top"
                             overlay={
@@ -213,7 +214,7 @@ const Listkelurahan = () => {
                         >
                           <Button
                             variant="outline-danger"
-                            onClick={() => handleShow(datakelurahan)}
+                            onClick={() => handleShow(datauser)}
                           >
                             <FontAwesomeIcon
                               icon={["fa", "trash-alt"]}
@@ -257,12 +258,12 @@ const Listkelurahan = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Kode Kelurahan</th>
-                <th>: {datadelete.kode}</th>
+                <th>Username</th>
+                <th>: {datadelete.username}</th>
               </tr>
               <tr>
-                <th>Nama Kelurahan</th>
-                <th>: {datadelete.nama}</th>
+                <th>Role</th>
+                <th>: {datadelete.role}</th>
               </tr>
             </thead>
           </Table>
@@ -274,7 +275,7 @@ const Listkelurahan = () => {
           <Button
             variant="outline-danger"
             onClick={() => {
-              deleteKelurahan(datadelete.kode);
+              deleteUsers(datadelete.uuid);
               handleClose();
             }}
           >
@@ -285,4 +286,4 @@ const Listkelurahan = () => {
     </Container>
   );
 };
-export default Listkelurahan;
+export default Listuser;

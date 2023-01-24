@@ -20,25 +20,44 @@ const InputCekTpp = () => {
 
   // const [tpppdf, setTpppdf] = useState(false);
   const [alertshow, setAlertShow] = useState(false);
-  const [disaktif, setDisaktif] = useState(false);
   const [validation, setValidation] = useState({});
+
+  const [validated, setValidated] = useState(false);
 
   const showTpp = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/cektpp/${nip}&${bulan}&${tahun}`
-      );
-      GeneratPdf(response.data.result);
-    } catch (error) {
-      setValidation(error.response);
-      setAlertShow(true);
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+      setValidated(true);
+    } else {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/cektpp/${nip}&${bulan}&${tahun}`
+        );
+        GeneratPdf(response.data.result);
+        setValidated(false);
+      } catch (error) {
+        notifError(error.response);
+      }
     }
   };
 
   const resetVariabel = () => {
     setNip("");
     setTahun("");
+    setBulan("");
+    setValidated(false);
+  };
+
+  const notifError = (e) => {
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
   };
 
   return (
@@ -61,7 +80,7 @@ const InputCekTpp = () => {
                           {validation.data.message}
                         </Alert>
                       )}
-                      <form>
+                      <Form noValidate validated={validated} onSubmit={showTpp}>
                         <Form.Group className="mb-3">
                           <Form.Label>NIP</Form.Label>
                           <Form.Control
@@ -73,12 +92,15 @@ const InputCekTpp = () => {
                             maxLength="18"
                             required
                           />
+                          <Form.Control.Feedback type="invalid">
+                            NIP tidak boleh kosong.!
+                          </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3">
                           <Form.Label>Bulan</Form.Label>
                           <Form.Select
+                            value={bulan}
                             onChange={(e) => setBulan(e.target.value)}
-                            disabled={disaktif}
                             required
                           >
                             <option value="">Pilih Bulan</option>
@@ -95,6 +117,9 @@ const InputCekTpp = () => {
                             <option value="11">November</option>
                             <option value="12">Desember</option>
                           </Form.Select>
+                          <Form.Control.Feedback type="invalid">
+                            Pilih Bulan.!
+                          </Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-3">
                           <Form.Label>Tahun</Form.Label>
@@ -105,9 +130,11 @@ const InputCekTpp = () => {
                             placeholder="Tahun"
                             minLength="4"
                             maxLength="4"
-                            disabled={disaktif}
                             required
                           />
+                          <Form.Control.Feedback type="invalid">
+                            Masukan Tahun.!
+                          </Form.Control.Feedback>
                         </Form.Group>
 
                         <Row className="col-md-5 mx-auto">
@@ -117,12 +144,12 @@ const InputCekTpp = () => {
                             </Button>
                           </Col>
                           <Col>
-                            <Button variant="primary" onClick={showTpp}>
+                            <Button variant="primary" type="submit">
                               Cek
                             </Button>
                           </Col>
                         </Row>
-                      </form>
+                      </Form>
                     </Col>
                   </Row>
                 </Container>

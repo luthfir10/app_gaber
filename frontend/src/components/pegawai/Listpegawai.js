@@ -22,7 +22,6 @@ const Listpegawai = () => {
   const [rows, setRows] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
-  const [msg, setMsg] = useState("");
 
   const [show, setShow] = useState(false);
   const [datadelete, setDatadelete] = useState([]);
@@ -31,6 +30,10 @@ const Listpegawai = () => {
     setShow(true);
     setDatadelete(id);
   };
+
+  const [alertshow, setAlertShow] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
+  const [validation, setValidation] = useState({});
 
   useEffect(() => {
     fetchData();
@@ -58,22 +61,48 @@ const Listpegawai = () => {
     e.preventDefault();
     setPage(0);
     if (rows === 0) {
-      setMsg(
-        "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!"
-      );
+      notifError({
+        data: {
+          message:
+            "Jika tidak menemukan data yang Anda cari, silahkan cari data dengan kata kunci spesifik!",
+        },
+      });
     } else {
-      setMsg("");
+      setValidation("");
     }
     setKeyword(query);
   };
 
   const deletePegawai = async (nip) => {
-    try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/pegawais/${nip}`);
-      fetchData();
-    } catch (error) {
-      console.log(error);
-    }
+    await axios
+      .delete(`${process.env.REACT_APP_API_URL}/pegawais/${nip}`)
+      .then((res) => {
+        fetchData();
+        notifSukses(res);
+      })
+      .catch((error) => {
+        notifError(error.response);
+      });
+  };
+
+  const notifSukses = (e) => {
+    setNotinfo("success");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
+  };
+
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
   };
 
   return (
@@ -85,6 +114,15 @@ const Listpegawai = () => {
               <Card.Title>List Data Pegawai</Card.Title>
               <Container>
                 <Row>
+                  {alertshow && (
+                    <Alert
+                      variant={notinfo}
+                      onClose={() => setAlertShow(false)}
+                      dismissible
+                    >
+                      {validation.data.message}
+                    </Alert>
+                  )}
                   <Col sm={10}>
                     <Form className="d-flex" onSubmit={searchData}>
                       <Form.Control
@@ -172,10 +210,6 @@ const Listpegawai = () => {
               <Alert variant="light">
                 Total Rows: {rows} Page: {rows ? page + 1 : 0} of {pages}
               </Alert>
-
-              <Alert variant="danger" show={false}>
-                {msg}
-              </Alert>
               {pages > 1 && (
                 <MyPagination
                   total={pages}
@@ -216,7 +250,7 @@ const Listpegawai = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Batal
           </Button>
           <Button
             variant="outline-danger"
@@ -225,7 +259,7 @@ const Listpegawai = () => {
               handleClose();
             }}
           >
-            Delete
+            Hapus
           </Button>
         </Modal.Footer>
       </Modal>

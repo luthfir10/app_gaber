@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "../../features/authSlice";
 
 import { Card, Container, Row, Col } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
-import Listpegawai from "./Listpegawai";
+import Listuser from "./Listuser";
 
-const Masterpegawai = () => {
+const Masteruser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isError } = useSelector((state) => state.auth);
@@ -28,12 +28,12 @@ const Masterpegawai = () => {
       <Row>
         <Col md="{12}">
           <Card className="border-0 rounded shadow-sm">
-            <Card.Header>Master Pegawai</Card.Header>
+            <Card.Header>Master User</Card.Header>
             <Card.Body>
-              <Link to="/masterpegawai/add">
+              <Link to="/masteruser/add">
                 <Button variant="outline-primary">Tambah Baru</Button>
               </Link>
-              <Listpegawai />
+              <Listuser />
             </Card.Body>
           </Card>
         </Col>
@@ -41,4 +41,4 @@ const Masterpegawai = () => {
     </Container>
   );
 };
-export default Masterpegawai;
+export default Masteruser;

@@ -9,6 +9,7 @@ const Home = () => {
             <Card.Header>Home</Card.Header>
             <Card.Body>
               <Card.Text>
+                {process.env.REACT_APP_API_URL}
                 Pemerintah Provinsi Sumatera Barat mengalokasikan Rp380 miliar
                 untuk Tambahan Penghasilan Pegawai (TPP) pada 2023, naik sekitar
                 Rp 130 miliar dari anggaran 2022 yang mencapai Rp258 miliar.

@@ -1,17 +1,67 @@
 import UserModel from "../models/UserModel.js";
 import argon2 from "argon2";
+import { Op } from "sequelize";
 
 export const getUsers = async (req, res) => {
-  try {
-    const response = await UserModel.findAll({
-      attributes: ["uuid", "namauser", "username", "role"],
-    });
-    res.status(200).json({
-      result: response,
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  const page = parseInt(req.query.page) || 0;
+  const search = req.query.search_query || "";
+  const totalRows = await UserModel.count({
+    where: {
+      [Op.or]: [
+        {
+          uuid: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+        {
+          username: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+        {
+          namauser: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+      ],
+    },
+  });
+
+  const limit = parseInt(req.query.limit) || totalRows;
+  const offset = limit * page;
+  const totalpage = Math.ceil(totalRows / limit);
+  const result = await UserModel.findAll({
+    attributes: ["uuid", "namauser", "username", "role"],
+    where: {
+      [Op.or]: [
+        {
+          uuid: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+        {
+          username: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+        {
+          namauser: {
+            [Op.like]: "%" + search + "%",
+          },
+        },
+      ],
+    },
+    offset: offset,
+    limit: limit,
+    order: [["id", "ASC"]],
+  });
+  res.json({
+    result: result,
+    page: page,
+    limit: limit,
+    totalRows: totalRows,
+    totalpage: totalpage,
+  });
 };
 
 export const getUserById = async (req, res) => {
@@ -32,6 +82,13 @@ export const getUserById = async (req, res) => {
 
 export const createUsers = async (req, res) => {
   const { namauser, username, password, confPassword, role } = req.body;
+  const totalRows = await UserModel.count({
+    where: {
+      username: username,
+    },
+  });
+  if (totalRows > 0)
+    return res.status(400).json({ message: "Username Sudah digunakan.!" });
   if (password !== confPassword)
     return res
       .status(400)
@@ -82,7 +139,7 @@ export const updateUsers = async (req, res) => {
         },
       }
     );
-    res.status(200).json({ message: "User Update" });
+    res.status(200).json({ message: "Data berhasil diupdate." });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -101,7 +158,7 @@ export const deleteUsers = async (req, res) => {
         id: user.id,
       },
     });
-    res.status(200).json({ message: "User Deleted" });
+    res.status(200).json({ message: "Data berhasil dihapus." });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

@@ -87,51 +87,93 @@ export const getPegawaiById = async (req, res) => {
       result: result,
     });
   } catch (error) {
-    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
 export const createPegawai = async (req, res) => {
-  const validnip = await PegawaiModel.count({
+  const { nip, nama, kode_kelurahan, gol, kode_jabatan, tgl, alamat } =
+    req.body;
+  if (nip === null || nip === "")
+    return res.status(400).json({ message: "Nip tidak boleh kosong.!" });
+  const totalRows = await PegawaiModel.count({
     where: {
-      nip: req.body.nip,
+      nip: nip,
     },
   });
-  if (validnip) {
-    return res.status(400).json({ message: "NIP already in use" });
-  }
+  if (totalRows > 0)
+    return res
+      .status(400)
+      .json({ message: "Nip sudah digunakan data gagal tersimpan.!" });
 
   try {
-    await PegawaiModel.create(req.body);
-    res.status(201).json({ message: "Sukses Created Pegawai" });
+    await PegawaiModel.create({
+      nip: nip,
+      nama: nama,
+      kode_kelurahan: kode_kelurahan,
+      gol: gol,
+      kode_jabatan: kode_jabatan,
+      tgl: tgl,
+      alamat: alamat,
+    });
+    res.status(201).json({ message: "Data berhasil disimpan." });
   } catch (error) {
     console.log(error.message);
-    res.status(400).json({ message: "Internal Server Error" });
+    res.status(400).json({ message: error.message });
   }
 };
 
 export const updatePegawai = async (req, res) => {
-  try {
-    await PegawaiModel.update(req.body, {
-      where: {
-        nip: req.params.nip,
-      },
+  const totalRows = await PegawaiModel.findOne({
+    where: {
+      nip: req.params.nip,
+    },
+  });
+  if (!totalRows)
+    return res.status(404).json({
+      message: "Kode jabatan tidak terdaftar data gagal di update.!",
     });
-    res.status(200).json({ data: "Sukses Update Pegawai" });
+  const { nama, kode_kelurahan, gol, kode_jabatan, tgl, alamat } = req.body;
+  try {
+    await PegawaiModel.update(
+      {
+        nama: nama,
+        kode_kelurahan: kode_kelurahan,
+        gol: gol,
+        kode_jabatan: kode_jabatan,
+        tgl: tgl,
+        alamat: alamat,
+      },
+      {
+        where: {
+          nip: req.params.nip,
+        },
+      }
+    );
+    res.status(201).json({ message: "Data berhasil diupdate." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
 
 export const deletePegawai = async (req, res) => {
+  const totalRows = await PegawaiModel.findOne({
+    where: {
+      nip: req.params.nip,
+    },
+  });
+  if (!totalRows)
+    return res.status(404).json({
+      message: "Nip tidak terdaftar data gagal di Hapus.!",
+    });
   try {
     await PegawaiModel.destroy({
       where: {
         nip: req.params.nip,
       },
     });
-    res.status(200).json({ data: "Sukses Delete Pegawai" });
+    res.status(201).json({ message: "Data berhasil dihapus." });
   } catch (error) {
-    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
