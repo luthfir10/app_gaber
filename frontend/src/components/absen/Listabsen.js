@@ -1,9 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../assest/fontawesome";
 
 import Table from "react-bootstrap/Table";
 import { Card, Container, Row, Col } from "react-bootstrap";

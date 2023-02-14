@@ -2,10 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import MyPagination from "../assest/MyPagination";
+import MyPagination from "../../assest/MyPagination";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../assest/fontawesome";
+import "../../assest/styles/fontawesome";
 
 import Table from "react-bootstrap/Table";
 import { Card, Container, Row, Col } from "react-bootstrap";
@@ -24,7 +24,6 @@ const Listuser = () => {
   const [rows, setRows] = useState(0);
   const [keyword, setKeyword] = useState("");
   const [query, setQuery] = useState("");
-  const [msg, setMsg] = useState("");
 
   const [show, setShow] = useState(false);
   const [datadelete, setDatadelete] = useState([]);
