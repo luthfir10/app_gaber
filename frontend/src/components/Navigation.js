@@ -148,7 +148,7 @@ const Navigation = () => {
                     </NavDropdown>
                     <NavDropdown title="Report" id="collasible-nav-dropdown">
                       <Link
-                        to="/masteruser"
+                        to="/reportuser"
                         className="dropdown-item"
                         onClick={handleClose}
                       >

@@ -50,6 +50,9 @@ const LazyLogin = React.lazy(() => import("./components/login/LoginForm"));
 const LazyCekTpp = React.lazy(() =>
   import("./components/aksesuser/cektpp/InputCekTpp")
 );
+const LazyReportuser = React.lazy(() =>
+  import("./components/report/reportuser/reportUser")
+);
 
 const LazyNotFound = React.lazy(() => import("./components/NotFound"));
 
@@ -96,6 +99,8 @@ function App() {
           <Route path="/masterabsen" element={<LazyMasterabsen />} />
 
           <Route path="/mastertpp" element={<LazyMasterTpp />} />
+
+          <Route path="/reportuser" element={<LazyReportuser />} />
 
           <Route path="/login" element={<LazyLogin />} />
 
