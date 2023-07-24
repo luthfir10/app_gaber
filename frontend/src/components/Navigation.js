@@ -146,6 +146,36 @@ const Navigation = () => {
                         Master Pegawai
                       </Link>
                     </NavDropdown>
+                    <NavDropdown title="Report" id="collasible-nav-dropdown">
+                      <Link
+                        to="/masteruser"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Akses User
+                      </Link>
+                      <Link
+                        to="/masterkelurahan"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Master Kecamatan/Kelurahan
+                      </Link>
+                      <Link
+                        to="/masterjabatan"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Master Jabatan
+                      </Link>
+                      <Link
+                        to="/masterpegawai"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Master Pegawai
+                      </Link>
+                    </NavDropdown>
                     <Link
                       to="/masterabsen"
                       className="nav-link"
@@ -159,9 +189,6 @@ const Navigation = () => {
                       onClick={handleClose}
                     >
                       Besaran TPP
-                    </Link>
-                    <Link to="/" className="nav-link" onClick={handleClose}>
-                      Report
                     </Link>
                     {isSuccess ? (
                       <Button variant="light" onClick={logout}>

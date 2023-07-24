@@ -22,7 +22,6 @@ const Editabsen = ({ Dataabsen }) => {
     setTimeout(() => {
       setAlertShow(false);
       setValidation({});
-      navigate("/dashboard");
     }, 3000);
   };
   const notifError = (e) => {
