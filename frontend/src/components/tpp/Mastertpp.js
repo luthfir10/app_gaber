@@ -96,45 +96,6 @@ const Mastertpp = () => {
                           <Row>
                             <Col>
                               <Form.Group className="mb-3">
-                                <Form.Label>
-                                  Bulan dan Tahun Proses TPP
-                                </Form.Label>
-                                <Form.Select
-                                  onChange={(e) => setBulantpp(e.target.value)}
-                                  required
-                                >
-                                  <option value="">
-                                    Pilih Bulan Pemrosesan TPP
-                                  </option>
-                                  <option value="1">Januari</option>
-                                  <option value="2">Februari</option>
-                                  <option value="3">Maret</option>
-                                  <option value="4">April</option>
-                                  <option value="5">Mei</option>
-                                  <option value="6">Juni</option>
-                                  <option value="7">Juli</option>
-                                  <option value="8">Agustus</option>
-                                  <option value="9">September</option>
-                                  <option value="10">Oktober</option>
-                                  <option value="11">November</option>
-                                  <option value="12">Desember</option>
-                                </Form.Select>
-                              </Form.Group>
-                              <Form.Group className="mb-3">
-                                <Form.Label></Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  value={tahuntpp}
-                                  onChange={(e) => setTahuntpp(e.target.value)}
-                                  placeholder="Tahun Pemrosesan TPP"
-                                  minLength="4"
-                                  maxLength="4"
-                                  required
-                                />
-                              </Form.Group>
-                            </Col>
-                            <Col>
-                              <Form.Group className="mb-3">
                                 <Form.Label>Bulan dan Tahun Absen</Form.Label>
                                 <Form.Select
                                   onChange={(e) =>
@@ -166,6 +127,45 @@ const Mastertpp = () => {
                                     setTahunabsen(e.target.value)
                                   }
                                   placeholder="Tahun Absen"
+                                  minLength="4"
+                                  maxLength="4"
+                                  required
+                                />
+                              </Form.Group>
+                            </Col>
+                            <Col>
+                              <Form.Group className="mb-3">
+                                <Form.Label>
+                                  Bulan dan Tahun Proses TPP
+                                </Form.Label>
+                                <Form.Select
+                                  onChange={(e) => setBulantpp(e.target.value)}
+                                  required
+                                >
+                                  <option value="">
+                                    Pilih Bulan Pemrosesan TPP
+                                  </option>
+                                  <option value="1">Januari</option>
+                                  <option value="2">Februari</option>
+                                  <option value="3">Maret</option>
+                                  <option value="4">April</option>
+                                  <option value="5">Mei</option>
+                                  <option value="6">Juni</option>
+                                  <option value="7">Juli</option>
+                                  <option value="8">Agustus</option>
+                                  <option value="9">September</option>
+                                  <option value="10">Oktober</option>
+                                  <option value="11">November</option>
+                                  <option value="12">Desember</option>
+                                </Form.Select>
+                              </Form.Group>
+                              <Form.Group className="mb-3">
+                                <Form.Label></Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  value={tahuntpp}
+                                  onChange={(e) => setTahuntpp(e.target.value)}
+                                  placeholder="Tahun Pemrosesan TPP"
                                   minLength="4"
                                   maxLength="4"
                                   required

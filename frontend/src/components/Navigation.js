@@ -152,28 +152,42 @@ const Navigation = () => {
                         className="dropdown-item"
                         onClick={handleClose}
                       >
-                        Akses User
+                        Report User
                       </Link>
                       <Link
                         to="/masterkelurahan"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
-                        Master Kecamatan/Kelurahan
+                        Report Kecamatan/Kelurahan
                       </Link>
                       <Link
                         to="/masterjabatan"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
-                        Master Jabatan
+                        Report Jabatan
                       </Link>
                       <Link
                         to="/masterpegawai"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
-                        Master Pegawai
+                        Report Pegawai
+                      </Link>
+                      <Link
+                        to="/masterpegawai"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Absen
+                      </Link>
+                      <Link
+                        to="/masterpegawai"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Besaran TPP
                       </Link>
                     </NavDropdown>
                     <Link
