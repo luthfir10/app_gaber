@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
-import db from "../config/Database.js";
+import dbtpp from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const UserModel = db.define(
+const UserModel = dbtpp.define(
   "users",
   {
     uuid: {

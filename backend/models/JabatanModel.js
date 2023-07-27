@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
-import db from "../config/Database.js";
+import dbtpp from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const JabatanModel = db.define(
+const JabatanModel = dbtpp.define(
   "jabatan",
   {
     kode: { type: DataTypes.STRING(5), primaryKey: true },

@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
-import db from "../config/Database.js";
+import dbtpp from "../config/Database.js";
 
 const { DataTypes } = Sequelize;
 
-const TppModel = db.define(
+const TppModel = dbtpp.define(
   "tpp",
   {
     nip: { type: DataTypes.BIGINT(18) },

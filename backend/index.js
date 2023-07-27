@@ -10,7 +10,7 @@ import TppRoutes from "./routes/TppRoutes.js";
 import UserRoutes from "./routes/UserRoutes.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import CekTppRoutes from "./routes/CekTppRoutes.js";
-import db from "./config/Database.js";
+import dbtpp from "./config/Database.js";
 dotenv.config();
 
 // port
@@ -47,7 +47,8 @@ app.use(UserRoutes);
 app.use(AuthRoutes);
 app.use(CekTppRoutes);
 
-db.authenticate()
+dbtpp
+  .authenticate()
   .then(() => {
     console.log("Connection has been established successfully.");
   })
