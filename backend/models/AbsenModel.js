@@ -30,6 +30,6 @@ const AbsenModel = db.define(
 
 export default AbsenModel;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

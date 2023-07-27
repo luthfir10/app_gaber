@@ -17,6 +17,6 @@ const KelurahanModel = db.define(
 
 export default KelurahanModel;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

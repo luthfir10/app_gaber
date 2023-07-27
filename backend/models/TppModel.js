@@ -29,6 +29,6 @@ const TppModel = db.define(
 
 export default TppModel;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

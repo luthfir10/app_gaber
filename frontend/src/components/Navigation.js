@@ -77,7 +77,7 @@ const Navigation = () => {
         ))}
       </>
     );
-  } else if (user.role === "admin") {
+  } else if (user.role === "pranata komputer") {
     return (
       <>
         {["lg"].map((expand) => (
@@ -217,7 +217,73 @@ const Navigation = () => {
         ))}
       </>
     );
-  } else if (user.role === "DataEntry") {
+  } else if (user.role === "bendahara") {
+    return (
+      <>
+        {["lg"].map((expand) => (
+          <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+            <Container fluid>
+              <Navbar.Brand>
+                <Link to="/dashboard" className="dropdown-item">
+                  SITPP
+                </Link>
+              </Navbar.Brand>
+              <Navbar.Toggle
+                aria-controls={`offcanvasNavbar-expand-${expand}`}
+                onClick={handleShow}
+              />
+              <Navbar.Offcanvas
+                id={`offcanvasNavbar-expand-${expand}`}
+                aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                placement="end"
+                show={show}
+                onHide={handleClose}
+              >
+                <Offcanvas.Header closeButton>
+                  <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                    Menu DataEntry
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                  <Nav className="justify-content-end flex-grow-1 pe-3">
+                    <Link
+                      to="/dashboard"
+                      className="nav-link"
+                      onClick={handleClose}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/masterabsen"
+                      className="nav-link"
+                      onClick={handleClose}
+                    >
+                      Absen
+                    </Link>
+                    <Link
+                      to="/mastertpp"
+                      className="nav-link"
+                      onClick={handleClose}
+                    >
+                      Besaran TPP
+                    </Link>
+                    <Link to="/" className="nav-link" onClick={handleClose}>
+                      Report
+                    </Link>
+                    {isSuccess ? (
+                      <Button variant="light" onClick={logout}>
+                        Logout
+                      </Button>
+                    ) : null}
+                  </Nav>
+                </Offcanvas.Body>
+              </Navbar.Offcanvas>
+            </Container>
+          </Navbar>
+        ))}
+      </>
+    );
+  } else if (user.role === "camat") {
     return (
       <>
         {["lg"].map((expand) => (

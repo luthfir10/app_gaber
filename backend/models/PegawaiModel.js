@@ -22,6 +22,6 @@ const PegawaiModel = db.define(
 
 export default PegawaiModel;
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();

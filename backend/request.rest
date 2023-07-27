@@ -3,11 +3,11 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "namauser":"Hazuna",
-    "username":"hazuna@tpp.com",
-    "password":"Hazuna@2023",
-    "confPassword": "Hazuna@2023",
-    "role":"DataEntry"
+    "namauser":"Admin",
+    "username":"admin@tpp.com",
+    "password":"Tpp123@",
+    "confPassword": "Tpp123@",
+    "role":"pranata komputer"
 }
 
 ###

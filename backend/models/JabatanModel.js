@@ -16,6 +16,6 @@ const JabatanModel = db.define(
 
 export default JabatanModel;
 
-async () => {
-  await db.sync();
-};
+// async () => {
+//   await db.sync();
+// };

@@ -10,11 +10,13 @@ import TppRoutes from "./routes/TppRoutes.js";
 import UserRoutes from "./routes/UserRoutes.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import CekTppRoutes from "./routes/CekTppRoutes.js";
+import db from "./config/Database.js";
 dotenv.config();
 
 // port
 const port = process.env.APP_PORT || 5000;
 const app = express();
+
 app.use(
   session({
     secret: process.env.SESS_SECRET,
@@ -30,7 +32,7 @@ app.use(
     credentials: true,
     origin: [
       "http://localhost:3000",
-      "http://172.20.224.1:3000",
+      "http://172.18.96.1:3000",
       "http://192.168.1.8:3000",
     ],
   })
@@ -45,4 +47,12 @@ app.use(UserRoutes);
 app.use(AuthRoutes);
 app.use(CekTppRoutes);
 
-app.listen(port, () => console.log("Server up and Running..."));
+db.authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
+
+app.listen(port, () => console.log(`Server up and Running on Port ${port}...`));
