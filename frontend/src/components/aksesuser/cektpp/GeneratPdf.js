@@ -1,5 +1,6 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import logo from "../../../assest/images/logo_padang.png";
 
 // define a generatePDF function that accepts a tickets argument
 const GeneratPdf = (datatpp) => {
@@ -55,6 +56,7 @@ const GeneratPdf = (datatpp) => {
   doc.setFont("Arial");
   doc.setFontSize(13);
   doc.setTextColor(10);
+  doc.addImage(logo, "PNG", 14, 15);
   doc.text("Provinsi Sumatera Barat", 85, 15);
   doc.text("Kecamatan Padang Selatan", 83, 20);
   doc.text(`Rincian TPP ${bulanh} ${datatpp.tahun}`, 84, 28);

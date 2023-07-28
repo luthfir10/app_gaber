@@ -37,7 +37,7 @@ DELETE http://localhost:5000/users/c36b8b23-ad2a-443a-a865-e2ecdd1a3e12
 
 ###
 // Login
-POST http://localhost:5000/login
+POST http://18.222.216.165:5000/login
 Content-Type: application/json
 
 {

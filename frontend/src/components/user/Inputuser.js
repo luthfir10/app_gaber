@@ -177,8 +177,10 @@ const Inputuser = () => {
                     onChange={(e) => setRole(e.target.value)}
                   >
                     <option value="">Pilih Akses</option>
-                    <option value="admin">Admin</option>
-                    <option value="DataEntry">Data Entry</option>
+                    <option value="camat">Camat</option>
+                    <option value="pranata komputer">Pranata Komputer</option>
+                    <option value="bendahara">Bendahara</option>
+                    <option value="pegawai">Pegawai</option>
                   </Form.Select>
                   <Form.Control.Feedback type="invalid">
                     Pilih Akses.!
