@@ -51,7 +51,7 @@ const LoginForm = () => {
             <img
               src={bg_Login}
               alt="side login"
-              class="rounded-t-5 rounded-tr-lg-0"
+              className="rounded-t-5 rounded-tr-lg-0"
               fluid
               style={{
                 maxWidth: "100%",
