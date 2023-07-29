@@ -349,6 +349,58 @@ const Navigation = () => {
         ))}
       </>
     );
+  } else if (user.role === "pegawai") {
+    return (
+      <>
+        {["lg"].map((expand) => (
+          <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+            <Container fluid>
+              <Navbar.Brand>
+                <Link to="/" className="dropdown-item">
+                  SITPP
+                </Link>
+              </Navbar.Brand>
+              <Navbar.Toggle
+                aria-controls={`offcanvasNavbar-expand-${expand}`}
+                onClick={handleShow}
+              />
+              <Navbar.Offcanvas
+                id={`offcanvasNavbar-expand-${expand}`}
+                aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+                placement="end"
+                show={show}
+                onHide={handleClose}
+              >
+                <Offcanvas.Header closeButton>
+                  <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+                    Menu
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                  <Nav className="justify-content-end flex-grow-1 pe-3">
+                    <Link to="/" className="nav-link" onClick={handleClose}>
+                      Home
+                    </Link>
+                    <Link
+                      to="/cektpp"
+                      className="nav-link"
+                      onClick={handleClose}
+                    >
+                      Tpp
+                    </Link>
+                    {isSuccess ? (
+                      <Button variant="light" onClick={logout}>
+                        Logout
+                      </Button>
+                    ) : null}
+                  </Nav>
+                </Offcanvas.Body>
+              </Navbar.Offcanvas>
+            </Container>
+          </Navbar>
+        ))}
+      </>
+    );
   }
 };
 export default Navigation;
