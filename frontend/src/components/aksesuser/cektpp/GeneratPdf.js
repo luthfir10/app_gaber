@@ -1,9 +1,12 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import moment from "moment";
 import logo from "../../../assest/images/logo_report.png";
 
 // define a generatePDF function that accepts a tickets argument
 const GeneratPdf = (datatpp) => {
+  const dateTime = new Date();
+  const tgl = moment(dateTime).format("L");
   const currencyFormat = (num) => {
     return "Rp" + num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
@@ -82,6 +85,34 @@ const GeneratPdf = (datatpp) => {
   doc.text(`: ${currencyFormat(parseInt(datatpp.pemot_ll))}`, 75, 125);
   doc.text("TPP Bersih", 24, 135);
   doc.text(`: ${currencyFormat(parseInt(datatpp.tottppber))}`, 75, 135);
+
+  doc.autoTable({
+    startY: 170,
+    theme: "grid",
+    pageBreak: "avoid",
+    rowPageBreak: "avoid",
+    bodyStyles: {
+      textColor: [0, 0, 0],
+      lineWidth: 0,
+      halign: "center",
+    },
+    columnStyles: {
+      0: {
+        cellWidth: 100,
+      },
+      2: {
+        cellWidth: 50,
+      },
+    },
+    body: [
+      [" ", " ", "Padang " + tgl],
+      [" ", " ", "Camat Padang Selatan"],
+      [""],
+      [""],
+      [" ", " ", "Teddy Antonius, S.STP, MM"],
+      [" ", " ", "NIP: 19810529 199912 1 002"],
+    ],
+  });
 
   // we define the name of our PDF file.
   doc.save(`rincianTPP_${datatpp.nip}.pdf`);

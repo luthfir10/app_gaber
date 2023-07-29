@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../../features/authSlice";
-
-import { Card, Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
+import { Card, Container, Row, Col, Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
+import { getMe } from "../../../features/authSlice";
 import Listdatauser from "./Listdatauser";
+import pdfUser from "./pdfUser";
 
 const ReportUser = () => {
+  const [validation, setValidation] = useState({});
+  const [alertshow, setAlertShow] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isError } = useSelector((state) => state.auth);
@@ -23,6 +28,28 @@ const ReportUser = () => {
     }
   }, [isError, navigate]);
 
+  const generetPdf = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users`
+      );
+      pdfUser(response.data.result);
+      setValidated(false);
+    } catch (error) {
+      notifError(error.response);
+    }
+  };
+
+  const notifError = (e) => {
+    setNotinfo("danger");
+    setValidation(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+      setValidation({});
+    }, 3000);
+  };
+
   return (
     <Container className="mt-3">
       <Row>
@@ -30,9 +57,18 @@ const ReportUser = () => {
           <Card className="border-0 rounded shadow-sm">
             <Card.Header>Report User</Card.Header>
             <Card.Body>
-              <Link to="/masteruser/add">
-                <Button variant="outline-primary">Generate PDF</Button>
-              </Link>
+              {alertshow && (
+                <Alert
+                  variant={notinfo}
+                  onClose={() => setAlertShow(false)}
+                  dismissible
+                >
+                  {validation.data.message}
+                </Alert>
+              )}
+              <Button onClick={generetPdf} variant="outline-primary">
+                Generate PDF
+              </Button>
               <Listdatauser />
             </Card.Body>
           </Card>

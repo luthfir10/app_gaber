@@ -6,10 +6,10 @@ import { Card, Container, Row, Col, Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
 import { getMe } from "../../../features/authSlice";
-import Listdatakelurahan from "./Listdatakelurahan";
-import pdfKelurahan from "./pdfKelurahan";
+import Listdatakelurahan from "./Listdatajabatan";
+import pdfKelurahan from "./pdfJabatan";
 
-const ReportKelurahan = () => {
+const ReportJabatan = () => {
   const [validation, setValidation] = useState({});
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
@@ -31,7 +31,7 @@ const ReportKelurahan = () => {
   const generetPdf = async () => {
     try {
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/kelurahan`
+        `${process.env.REACT_APP_API_URL}/jabatan`
       );
       pdfKelurahan(response.data.result);
       setValidated(false);
@@ -55,7 +55,7 @@ const ReportKelurahan = () => {
       <Row>
         <Col md="{12}">
           <Card className="border-0 rounded shadow-sm">
-            <Card.Header>Report Kecamatan/Kelurahan</Card.Header>
+            <Card.Header>Report Jabatan</Card.Header>
             <Card.Body>
               {alertshow && (
                 <Alert
@@ -77,4 +77,4 @@ const ReportKelurahan = () => {
     </Container>
   );
 };
-export default ReportKelurahan;
+export default ReportJabatan;

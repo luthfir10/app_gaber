@@ -53,6 +53,15 @@ const LazyCekTpp = React.lazy(() =>
 const LazyReportuser = React.lazy(() =>
   import("./components/report/reportuser/reportUser")
 );
+const LazyReportkelurahan = React.lazy(() =>
+  import("./components/report/reportkecamatan/reportkecamatan")
+);
+const LazyReportjabatan = React.lazy(() =>
+  import("./components/report/reportjabatan/ReportJabatan")
+);
+const LazyReportpegawai = React.lazy(() =>
+  import("./components/report/reportpegawai/ReportPegawai")
+);
 
 const LazyNotFound = React.lazy(() => import("./components/NotFound"));
 
@@ -69,7 +78,7 @@ function App() {
         }
       >
         <Routes>
-          <Route path="/" element={<LazyHome />} />
+          <Route path="/" element={<LazyLogin />} />
           <Route path="/dashboard" element={<LazyDahsbord />} />
           <Route path="/masteruser" element={<LazyMasteruser />} />
           <Route path="/masteruser/add" element={<LazyInputuser />} />
@@ -101,6 +110,9 @@ function App() {
           <Route path="/mastertpp" element={<LazyMasterTpp />} />
 
           <Route path="/reportuser" element={<LazyReportuser />} />
+          <Route path="/reportkelurahan" element={<LazyReportkelurahan />} />
+          <Route path="/reportjabatan" element={<LazyReportjabatan />} />
+          <Route path="/reportpegawai" element={<LazyReportpegawai />} />
 
           <Route path="/login" element={<LazyLogin />} />
 

@@ -26,55 +26,56 @@ const Navigation = () => {
   if (!user) {
     return (
       <>
-        {["lg"].map((expand) => (
-          <Navbar key={expand} bg="light" expand={expand} className="mb-3">
-            <Container fluid>
-              <Navbar.Brand>
-                <Link to="/" className="dropdown-item">
-                  SITPP
-                </Link>
-              </Navbar.Brand>
-              <Navbar.Toggle
-                aria-controls={`offcanvasNavbar-expand-${expand}`}
-                onClick={handleShow}
-              />
-              <Navbar.Offcanvas
-                id={`offcanvasNavbar-expand-${expand}`}
-                aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
-                placement="end"
-                show={show}
-                onHide={handleClose}
-              >
-                <Offcanvas.Header closeButton>
-                  <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    Menu
-                  </Offcanvas.Title>
-                </Offcanvas.Header>
-                <Offcanvas.Body>
-                  <Nav className="justify-content-end flex-grow-1 pe-3">
-                    <Link to="/" className="nav-link" onClick={handleClose}>
-                      Home
-                    </Link>
-                    <Link
-                      to="/cektpp"
-                      className="nav-link"
-                      onClick={handleClose}
-                    >
-                      Tpp
-                    </Link>
-                    <Link
-                      to="/login"
-                      className="nav-link"
-                      onClick={handleClose}
-                    >
-                      Login
-                    </Link>
-                  </Nav>
-                </Offcanvas.Body>
-              </Navbar.Offcanvas>
-            </Container>
-          </Navbar>
-        ))}
+        {/* {["lg"].map((expand) => (
+          // <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+          //   <Container fluid>
+          //     <Navbar.Brand>
+          //       <Link to="/" className="dropdown-item">
+          //         SITPP
+          //       </Link>
+          //     </Navbar.Brand>
+          //     <Navbar.Toggle
+          //       aria-controls={`offcanvasNavbar-expand-${expand}`}
+          //       onClick={handleShow}
+          //     />
+          //     <Navbar.Offcanvas
+          //       id={`offcanvasNavbar-expand-${expand}`}
+          //       aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+          //       placement="end"
+          //       show={show}
+          //       onHide={handleClose}
+          //     >
+          //       <Offcanvas.Header closeButton>
+          //         <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
+          //           Menu
+          //         </Offcanvas.Title>
+          //       </Offcanvas.Header>
+          //       <Offcanvas.Body>
+          //         <Nav className="justify-content-end flex-grow-1 pe-3">
+          //           <Link to="/" className="nav-link" onClick={handleClose}>
+          //             Home
+          //           </Link>
+          //           <Link
+          //             to="/cektpp"
+          //             className="nav-link"
+          //             onClick={handleClose}
+          //           >
+          //             Tpp
+          //           </Link>
+          //           <Link
+          //             to="/login"
+          //             className="nav-link"
+          //             onClick={handleClose}
+          //           >
+          //             Login
+          //           </Link>
+          //         </Nav>
+          //       </Offcanvas.Body>
+          //     </Navbar.Offcanvas>
+          //   </Container>
+          // </Navbar>
+          <></>
+        ))} */}
       </>
     );
   } else if (user.role === "pranata komputer") {
@@ -155,21 +156,21 @@ const Navigation = () => {
                         Report User
                       </Link>
                       <Link
-                        to="/masterkelurahan"
+                        to="/reportkelurahan"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
                         Report Kecamatan/Kelurahan
                       </Link>
                       <Link
-                        to="/masterjabatan"
+                        to="/reportjabatan"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
                         Report Jabatan
                       </Link>
                       <Link
-                        to="/masterpegawai"
+                        to="/reportpegawai"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
