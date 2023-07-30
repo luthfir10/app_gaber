@@ -170,14 +170,14 @@ const Navigation = () => {
                         Report Jabatan
                       </Link>
                       <Link
-                        to="/reportabsen"
+                        to="/reportpegawai"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
                         Report Pegawai
                       </Link>
                       <Link
-                        to="/ReportAbsen"
+                        to="/reportabsen"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
@@ -277,14 +277,14 @@ const Navigation = () => {
                         Report Jabatan
                       </Link>
                       <Link
-                        to="/reportabsen"
+                        to="/reportpegawai"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
                         Report Pegawai
                       </Link>
                       <Link
-                        to="/ReportAbsen"
+                        to="/reportabsen"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
@@ -384,14 +384,14 @@ const Navigation = () => {
                         Report Jabatan
                       </Link>
                       <Link
-                        to="/reportabsen"
+                        to="/reportpegawai"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
                         Report Pegawai
                       </Link>
                       <Link
-                        to="/ReportAbsen"
+                        to="/reportabsen"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
