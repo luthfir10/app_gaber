@@ -62,6 +62,9 @@ const LazyReportjabatan = React.lazy(() =>
 const LazyReportpegawai = React.lazy(() =>
   import("./components/report/reportpegawai/ReportPegawai")
 );
+const LazyReportabsen = React.lazy(() =>
+  import("./components/report/reportabsen/ReportAbsen")
+);
 
 const LazyNotFound = React.lazy(() => import("./components/NotFound"));
 
@@ -113,6 +116,8 @@ function App() {
           <Route path="/reportkelurahan" element={<LazyReportkelurahan />} />
           <Route path="/reportjabatan" element={<LazyReportjabatan />} />
           <Route path="/reportpegawai" element={<LazyReportpegawai />} />
+          <Route path="/reportpegawai" element={<LazyReportpegawai />} />
+          <Route path="/reportabsen" element={<LazyReportabsen />} />
 
           <Route path="/login" element={<LazyLogin />} />
 

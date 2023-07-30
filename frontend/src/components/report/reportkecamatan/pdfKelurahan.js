@@ -61,8 +61,8 @@ const pdfKelurahan = (datauser) => {
       [" ", " ", "Camat Padang Selatan"],
       [""],
       [""],
-      [" ", " ", "Teddy Antonius, S.STP, MM"],
-      [" ", " ", "NIP: 19810529 199912 1 002"],
+      [" ", " ", "Jasman, S.Sos, MM"],
+      [" ", " ", "NIP: 19690204 199503 1 003"],
     ],
   });
 

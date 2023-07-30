@@ -102,7 +102,7 @@ const Navigation = () => {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    Menu Admin
+                    Menu Pranata Komputer
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
@@ -170,14 +170,14 @@ const Navigation = () => {
                         Report Jabatan
                       </Link>
                       <Link
-                        to="/reportpegawai"
+                        to="/reportabsen"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
                         Report Pegawai
                       </Link>
                       <Link
-                        to="/masterpegawai"
+                        to="/ReportAbsen"
                         className="dropdown-item"
                         onClick={handleClose}
                       >
@@ -192,7 +192,7 @@ const Navigation = () => {
                       </Link>
                     </NavDropdown>
                     <Link
-                      to="/masterabsen"
+                      to="/reportabsen"
                       className="nav-link"
                       onClick={handleClose}
                     >
@@ -242,7 +242,7 @@ const Navigation = () => {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    Menu DataEntry
+                    Menu Bendahara
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
@@ -254,6 +254,50 @@ const Navigation = () => {
                     >
                       Dashboard
                     </Link>
+                    <NavDropdown title="Report" id="collasible-nav-dropdown">
+                      <Link
+                        to="/reportuser"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report User
+                      </Link>
+                      <Link
+                        to="/reportkelurahan"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Kecamatan/Kelurahan
+                      </Link>
+                      <Link
+                        to="/reportjabatan"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Jabatan
+                      </Link>
+                      <Link
+                        to="/reportabsen"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Pegawai
+                      </Link>
+                      <Link
+                        to="/ReportAbsen"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Absen
+                      </Link>
+                      <Link
+                        to="/masterpegawai"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Besaran TPP
+                      </Link>
+                    </NavDropdown>
                     <Link
                       to="/masterabsen"
                       className="nav-link"
@@ -267,9 +311,6 @@ const Navigation = () => {
                       onClick={handleClose}
                     >
                       Besaran TPP
-                    </Link>
-                    <Link to="/" className="nav-link" onClick={handleClose}>
-                      Report
                     </Link>
                     {isSuccess ? (
                       <Button variant="light" onClick={logout}>
@@ -308,7 +349,7 @@ const Navigation = () => {
               >
                 <Offcanvas.Header closeButton>
                   <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                    Menu DataEntry
+                    Menu Camat
                   </Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
@@ -320,23 +361,50 @@ const Navigation = () => {
                     >
                       Dashboard
                     </Link>
-                    <Link
-                      to="/masterabsen"
-                      className="nav-link"
-                      onClick={handleClose}
-                    >
-                      Absen
-                    </Link>
-                    <Link
-                      to="/mastertpp"
-                      className="nav-link"
-                      onClick={handleClose}
-                    >
-                      Besaran TPP
-                    </Link>
-                    <Link to="/" className="nav-link" onClick={handleClose}>
-                      Report
-                    </Link>
+                    <NavDropdown title="Report" id="collasible-nav-dropdown">
+                      <Link
+                        to="/reportuser"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report User
+                      </Link>
+                      <Link
+                        to="/reportkelurahan"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Kecamatan/Kelurahan
+                      </Link>
+                      <Link
+                        to="/reportjabatan"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Jabatan
+                      </Link>
+                      <Link
+                        to="/reportabsen"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Pegawai
+                      </Link>
+                      <Link
+                        to="/ReportAbsen"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Absen
+                      </Link>
+                      <Link
+                        to="/masterpegawai"
+                        className="dropdown-item"
+                        onClick={handleClose}
+                      >
+                        Report Besaran TPP
+                      </Link>
+                    </NavDropdown>
                     {isSuccess ? (
                       <Button variant="light" onClick={logout}>
                         Logout

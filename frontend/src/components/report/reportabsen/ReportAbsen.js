@@ -11,7 +11,7 @@ import {
   Alert,
 } from "react-bootstrap";
 
-import GeneratPdf from "./GeneratPdf";
+import pdfAbsen from "./pdfAbsen";
 
 const ReportAbsen = () => {
   const [bulan, setBulan] = useState("");
@@ -33,9 +33,9 @@ const ReportAbsen = () => {
     } else {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/cektpp/${bulan}&${tahun}`
+          `${process.env.REACT_APP_API_URL}/repotabsen/${bulan}&${tahun}`
         );
-        GeneratPdf(response.data.result);
+        pdfAbsen(response.data.result, bulan, tahun);
         setValidated(false);
       } catch (error) {
         notifError(error.response);
@@ -122,13 +122,8 @@ const ReportAbsen = () => {
 
                         <Row className="col-md-5 mx-auto">
                           <Col>
-                            <Button variant="primary" onClick={resetVariabel}>
-                              Reset
-                            </Button>
-                          </Col>
-                          <Col>
                             <Button variant="primary" type="submit">
-                              Cek
+                              Generate PDF
                             </Button>
                           </Col>
                         </Row>

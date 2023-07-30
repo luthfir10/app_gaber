@@ -225,3 +225,36 @@ export const deleteAbsen = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+export const getRepotAbsen = async (req, res) => {
+  const bulan = req.params.bulan;
+  const tahun = req.params.tahun;
+  if (bulan === undefined && tahun === undefined)
+    return res.status(400).json({ message: "Isi bulan dan tahun.!" });
+
+  const validabsen = await AbsenModel.count({
+    where: {
+      bulan: bulan,
+      tahun: tahun,
+    },
+  });
+
+  if (validabsen === 0)
+    return res.status(400).json({ message: "Bulan dan Tahun belum diInput.!" });
+
+  const databsen = await AbsenModel.findAll({
+    include: [
+      {
+        model: PegawaiModel,
+        attributes: ["nip", "nama"],
+      },
+    ],
+    where: {
+      bulan: bulan,
+      tahun: tahun,
+    },
+  });
+  res.json({
+    result: databsen,
+  });
+};
