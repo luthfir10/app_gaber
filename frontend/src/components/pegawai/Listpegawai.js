@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
 const Listpegawai = () => {
+  const [isLoading, setisLoading] = useState(false);
   const [datapegawais, setDatapegawais] = useState([]);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -40,6 +41,12 @@ const Listpegawai = () => {
   }, [page, keyword, limit]);
 
   const fetchData = async () => {
+    setisLoading(true);
+    try {
+    } catch (error) {
+    } finally {
+      setisLoading(false);
+    }
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}/pegawais?search_query=${keyword}&page=${page}&limit=${limit}`
     );
@@ -186,7 +193,7 @@ const Listpegawai = () => {
                       <td>{datapegawai.kelurahan.nama}</td>
                       <td>{datapegawai.tgl}</td>
                       <td align="center">
-                        <Link to={`/masterpegawai/edit/${datapegawai.nip}`}>
+                        <Link to={`edit/${datapegawai.nip}`}>
                           <Button variant="outline-primary">
                             <FontAwesomeIcon icon={["fa", "edit"]} size="lg" />
                           </Button>

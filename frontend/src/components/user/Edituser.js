@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getMe } from "../../features/authSlice";
 
 import {
   Card,
@@ -24,23 +24,16 @@ const Edituser = () => {
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
 
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+  // const { isError } = useSelector((state) => state.auth);
 
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
 
   useEffect(() => {
-    dispatch(getMe());
     getUserById();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  }, []);
 
   const getUserById = async () => {
     const response = await axios.get(
@@ -86,7 +79,7 @@ const Edituser = () => {
     setTimeout(() => {
       setAlertShow(false);
       setValidation({});
-      navigate("/masteruser");
+      navigate("/tpp/master/aksesuser");
     }, 3000);
   };
   const notifError = (e) => {
@@ -191,7 +184,7 @@ const Edituser = () => {
 
                 <Row className="col-md-5 mx-auto">
                   <Col>
-                    <Link to="/masteruser">
+                    <Link to="/tpp/master/aksesuser">
                       <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>

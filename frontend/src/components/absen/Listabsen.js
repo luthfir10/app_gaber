@@ -22,7 +22,7 @@ const Listabsen = ({ Dataabsen }) => {
     setTimeout(() => {
       setAlertShow(false);
       setValidation({});
-      navigate("/dashboard");
+      navigate("/tpp");
     }, 3000);
   };
   const notifError = (e) => {
@@ -156,7 +156,7 @@ const Listabsen = ({ Dataabsen }) => {
                     >
                       <Row className="col-md-5 mx-auto">
                         <Col>
-                          <Link to="/masterabsen">
+                          <Link to="/tpp">
                             <Button variant="primary">Cencel</Button>
                           </Link>
                         </Col>

@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 
 const Listjabatan = () => {
+  const [isLoading, setisLoading] = useState(false);
   const [datajabatans, setDatajabatans] = useState([]);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -40,6 +41,12 @@ const Listjabatan = () => {
   }, [page, keyword, limit]);
 
   const fetchData = async () => {
+    setisLoading(true);
+    try {
+    } catch (error) {
+    } finally {
+      setisLoading(false);
+    }
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}/jabatan?search_query=${keyword}&page=${page}&limit=${limit}`
     );
@@ -178,7 +185,7 @@ const Listjabatan = () => {
                       <td>{datajabatan.kode}</td>
                       <td>{datajabatan.nama}</td>
                       <td align="center">
-                        <Link to={`/masterjabatan/edit/${datajabatan.kode}`}>
+                        <Link to={`edit/${datajabatan.kode}`}>
                           <Button variant="outline-primary">
                             <FontAwesomeIcon icon={["fa", "edit"]} size="lg" />
                           </Button>

@@ -35,6 +35,9 @@ export const Me = async (req, res) => {
 export const logOut = async (req, res) => {
   req.session.destroy((err) => {
     if (err) return res.status(400).json({ message: "Tidak dapat logout" });
-    res.status(200).json({ message: "Anda Telah logout" });
+    res
+      .status(200)
+      .clearCookie("connect.sid")
+      .json({ message: "Anda Telah logout" });
   });
 };

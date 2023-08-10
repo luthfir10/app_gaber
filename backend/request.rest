@@ -16,11 +16,11 @@ GET http://localhost:5000/pegawais
 
 ###
 // get ById User
-GET http://localhost:5000/users/c36b8b23-ad2a-443a-a865-e2ecdd1a3e12
+GET http://192.168.1.9:5000/reporttpp/4&2023
 
 ###
 // get absen
-GET http://localhost:5000/repotabsen/1&2023
+GET http://localhost:5000/repotabsen/4&2023
 
 ###
 // update a User

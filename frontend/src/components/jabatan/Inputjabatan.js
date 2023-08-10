@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getMe } from "../../features/authSlice";
 
 import {
   Card,
@@ -17,25 +17,15 @@ import {
 const Inputjabatan = () => {
   const [kode, setKode] = useState("");
   const [nama, setNama] = useState("");
-  const navigate = useNavigate();
   const [validation, setValidation] = useState({});
 
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const { isError } = useSelector((state) => state.auth);
 
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
 
   const saveKelurahan = async (e) => {
     e.preventDefault();
@@ -132,7 +122,7 @@ const Inputjabatan = () => {
 
                 <Row className="col-md-5 mx-auto">
                   <Col>
-                    <Link to="/masterjabatan">
+                    <Link to="/tpp/master/jabatan">
                       <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>

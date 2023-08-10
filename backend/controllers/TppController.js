@@ -118,45 +118,45 @@ export const createTpp = async (req, res) => {
         tottppber: tppbersih,
       });
     }
-    res.status(201).json({ message: "Sukses Created Absen" });
+    res.status(201).json({ message: "Sukses Proses TPP..!" });
   } catch (error) {
     console.log(error.message);
   }
 };
 
-// export const showdatabsen = async (req, res) => {
-//   const bulan = req.params.bulan;
-//   const tahun = req.params.tahun;
-//   if (bulan !== null && tahun !== "") {
-//     const validdata = await AbsenModel.count({
-//       where: {
-//         bulan: bulan,
-//         tahun: tahun,
-//       },
-//     });
-//     if (validdata === 0) {
-//       try {
-//         const result = await AbsenModel.findOne({
-//           where: {
-//             bulan: bulan,
-//             tahun: tahun,
-//           },
-//           include: [
-//             {
-//               model: PegawaiModel,
-//             },
-//           ],
-//         });
-//         res.json({
-//           result: result,
-//         });
-//       } catch (error) {
-//         console.log(error.message);
-//       }
-//     } else {
-//       res.status(400).json({ message: "Bulan dan Tahun belum di proses" });
-//     }
-//   } else {
-//     res.status(400).json({ message: "Data belum lengkap!!" });
-//   }
-// };
+export const getrepotrTpp = async (req, res) => {
+  const bulan = req.params.bulan;
+  const tahun = req.params.tahun;
+  console.log(bulan + " " + tahun);
+  if (bulan === undefined && tahun === undefined)
+    return res
+      .status(404)
+      .json({ message: "Harap menginputkan bulan dan tahun.!!" });
+  const validdata = await TppModel.count({
+    where: {
+      bulan: bulan,
+      tahun: tahun,
+    },
+  });
+  if (validdata === 0)
+    res.status(400).json({ message: "Bulan dan Tahun belum di proses" });
+
+  try {
+    const result = await TppModel.findAll({
+      where: {
+        bulan: bulan,
+        tahun: tahun,
+      },
+      include: [
+        {
+          model: PegawaiModel,
+        },
+      ],
+    });
+    res.json({
+      result: result,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};

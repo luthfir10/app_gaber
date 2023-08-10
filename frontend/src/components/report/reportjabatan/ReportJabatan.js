@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import axios from "axios";
 import { Card, Container, Row, Col, Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
-import { getMe } from "../../../features/authSlice";
 import Listdatakelurahan from "./Listdatajabatan";
 import pdfKelurahan from "./pdfJabatan";
 
@@ -14,19 +11,6 @@ const ReportJabatan = () => {
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
 
   const generetPdf = async () => {
     try {

@@ -1,32 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import axios from "axios";
 import { Card, Container, Row, Col, Alert } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 
-import { getMe } from "../../../features/authSlice";
 import Listdatapegawai from "./Listdatapegawai";
 import pdfPegawai from "./pdfPegawai";
 
-const ReportJabatan = () => {
+const ReportPegawai = () => {
   const [validation, setValidation] = useState({});
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
 
   const generetPdf = async () => {
     try {
@@ -77,4 +61,4 @@ const ReportJabatan = () => {
     </Container>
   );
 };
-export default ReportJabatan;
+export default ReportPegawai;

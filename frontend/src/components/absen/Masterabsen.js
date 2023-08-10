@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -30,19 +30,6 @@ const Masterabsen = () => {
   const [validation, setValidation] = useState({});
   const [alertshow, setAlertShow] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
-
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
 
   const gantiAbsen = dataabsen.map((i) => {
     i["bulan"] = bulan;
@@ -195,11 +182,9 @@ const Masterabsen = () => {
 
                         <Row>
                           <Col>
-                            <Link to="/masterabsen">
-                              <Button variant="primary" onClick={EditAbsen}>
-                                Edit
-                              </Button>
-                            </Link>
+                            <Button variant="primary" onClick={EditAbsen}>
+                              Edit
+                            </Button>
                           </Col>
                           <Col>
                             <Button variant="primary" type="submit">

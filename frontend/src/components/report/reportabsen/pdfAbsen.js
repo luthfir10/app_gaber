@@ -127,7 +127,7 @@ const pdfAbsen = (datauser, bulan, tahun) => {
   });
 
   // we define the name of our PDF file.
-  doc.save(`laporan_pegawai.pdf`);
+  doc.save(`laporan_absen.pdf`);
 };
 
 export default pdfAbsen;

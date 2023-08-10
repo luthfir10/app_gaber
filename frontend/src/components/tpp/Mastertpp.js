@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -28,20 +28,6 @@ const Mastertpp = () => {
   const [alertshow, setAlertShow] = useState(false);
 
   const [validation, setValidation] = useState({});
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
 
   const gantiAbsenTpp = datatpp.map((i) => {
     i["bulan_tpp"] = bulantpp;
@@ -178,11 +164,11 @@ const Mastertpp = () => {
                         <Row className="col-md-5 mx-auto">
                           <Col>
                             {tabelAbsenTpp ? (
-                              <Link to="/dashboard">
+                              <Link to="/tpp">
                                 <Button variant="primary">Cencel</Button>
                               </Link>
                             ) : (
-                              <Link to="/masterabsen">
+                              <Link to="/tpp/proses/absen">
                                 <Button variant="primary">Check</Button>
                               </Link>
                             )}

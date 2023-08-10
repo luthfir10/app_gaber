@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { LoginUser, reset } from "../../features/authSlice";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
+
+import useAuth from "../../services/hooks/useAuth";
+
 import bg_Login from "../../assest/images/data-science.png";
 import back_login from "../../assest/images/back_login.png";
 import logo from "../../assest/images/logo_padang.png";
@@ -15,26 +17,66 @@ import {
   Button,
   Alert,
 } from "react-bootstrap";
+import SpinnerButton from "../atoms/SpinnerButton";
 
 const LoginForm = () => {
+  const [isLoading, setisLoading] = useState(false);
+  const { setAuth } = useAuth();
+  const [msg, setMsg] = useState("");
+  const [alertShow, setAlertShow] = useState(false);
+  const [notinfo, setNotinfo] = useState("warning");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/tpp";
+  const frompegawai = location.state?.from?.pathname || "/app";
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, isError, isSuccess, isLoading, message } = useSelector(
-    (state) => state.auth
-  );
 
-  useEffect(() => {
-    if (user || isSuccess) {
-      navigate("/dashboard");
-    }
-    dispatch(reset());
-  }, [user, isSuccess, dispatch, navigate]);
-
-  const Auth = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(LoginUser({ username, password }));
+    setisLoading(true);
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          username: username,
+          password: password,
+        }
+      );
+      const accessToken = response?.data?.uuid;
+      const roles = [response?.data?.role];
+      const user = response.data.username;
+      const name = response.data.namauser;
+      setAuth({ user, name, roles, accessToken });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (
+        response.data.role === "pranata komputer" ||
+        response.data.role === "bendahara" ||
+        response.data.role === "camat"
+      ) {
+        navigate(from, { replace: true });
+      } else if (response.data.role === "pegawai") {
+        navigate(frompegawai, { replace: true });
+      }
+    } catch (error) {
+      if (!error.response) {
+        allertPop("Server No Response");
+      } else {
+        allertPop(error.response.data.message);
+      }
+    } finally {
+      setisLoading(false);
+    }
+  };
+
+  const allertPop = (e) => {
+    setMsg(e);
+    setAlertShow(true);
+    setTimeout(() => {
+      setAlertShow(false);
+    }, 3500);
   };
 
   return (
@@ -68,7 +110,7 @@ const LoginForm = () => {
               }}
             >
               <Card.Body className="p-5 d-flex flex-column align-items-center mx-auto w-100">
-                <form onSubmit={Auth}>
+                <form onSubmit={handleSubmit} autoComplete="off">
                   <Card
                     className="bg-transparent align-items-center"
                     style={{ border: "none" }}
@@ -82,7 +124,15 @@ const LoginForm = () => {
                     />
                   </Card>
                   <h2 className="mb-2 p-3 text-center">Login SITPP</h2>
-                  {isError && <Alert variant="danger">{message}</Alert>}
+                  {alertShow && (
+                    <Alert
+                      variant={notinfo}
+                      onClose={() => setAlertShow(false)}
+                      dismissible
+                    >
+                      {msg}
+                    </Alert>
+                  )}
 
                   <Form.Group className="mb-3">
                     <Form.Control
@@ -109,7 +159,7 @@ const LoginForm = () => {
                     color="white"
                     size="lg"
                   >
-                    {isLoading ? "Loading.." : "Login"}
+                    {isLoading ? <SpinnerButton /> : "Login"}
                   </Button>
 
                   <div className="d-flex flex-row mt-3 mb-5"></div>

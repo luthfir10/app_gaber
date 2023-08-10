@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Table from "react-bootstrap/Table";
@@ -10,7 +10,6 @@ import Alert from "react-bootstrap/Alert";
 
 const Editabsen = ({ Dataabsen }) => {
   const [absenLengkap, setAbsenLengkap] = useState(Dataabsen);
-  const navigate = useNavigate();
   const [validation, setValidation] = useState({});
   const [alertshow, setAlertShow] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
@@ -155,7 +154,7 @@ const Editabsen = ({ Dataabsen }) => {
                     >
                       <Row className="col-md-5 mx-auto">
                         <Col>
-                          <Link to="/dashboard">
+                          <Link to="/tpp">
                             <Button variant="primary">Batal</Button>
                           </Link>
                         </Col>

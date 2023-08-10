@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import JabatanRoutes from "./routes/JabatanRoutes.js";
 import KelurahanRoutes from "./routes/KelurahanRoutes.js";
@@ -27,6 +28,7 @@ app.use(
     },
   })
 );
+
 app.use(
   cors({
     credentials: true,

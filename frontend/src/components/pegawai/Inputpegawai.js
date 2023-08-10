@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import {
@@ -22,30 +20,19 @@ const Inputpegawai = () => {
   const [gol, setGol] = useState("");
   const [kdJabatan, setkdJabatan] = useState("");
   const [alamat, setAlamat] = useState("");
-  const navigate = useNavigate();
   const [validation, setValidation] = useState([]);
 
   const [datakelurahans, setDatakelurahans] = useState([]);
   const [datajabatans, setDatajabatans] = useState([]);
-
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
 
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
 
   useEffect(() => {
-    dispatch(getMe());
     getPenempatan();
     getJabatan();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  }, []);
 
   const getPenempatan = async () => {
     const response = await axios.get(
@@ -246,7 +233,7 @@ const Inputpegawai = () => {
 
                 <Row className="col-md-5 mx-auto">
                   <Col>
-                    <Link to="/masterpegawai">
+                    <Link to="/tpp/master/pegawai">
                       <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>

@@ -67,7 +67,7 @@ const pdfJabatan = (datauser) => {
   });
 
   // we define the name of our PDF file.
-  doc.save(`laporan_kelurahan.pdf`);
+  doc.save(`laporan_jabatan.pdf`);
 };
 
 export default pdfJabatan;

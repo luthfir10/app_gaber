@@ -17,6 +17,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 const Listkelurahan = () => {
+  const [isLoading, setisLoading] = useState(false);
   const [datakelurahans, setDatakelurahans] = useState([]);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -42,6 +43,13 @@ const Listkelurahan = () => {
   }, [page, keyword, limit]);
 
   const fetchData = async () => {
+    setisLoading(true);
+    try {
+    } catch (error) {
+    } finally {
+      setisLoading(false);
+    }
+
     const response = await axios.get(
       `${process.env.REACT_APP_API_URL}/kelurahan?search_query=${keyword}&page=${page}&limit=${limit}`
     );
@@ -182,9 +190,7 @@ const Listkelurahan = () => {
                       <td>{datakelurahan.nama}</td>
                       <td>{datakelurahan.alamat}</td>
                       <td align="center">
-                        <Link
-                          to={`/masterkelurahan/edit/${datakelurahan.kode}`}
-                        >
+                        <Link to={`edit/${datakelurahan.kode}`}>
                           <OverlayTrigger
                             placement="top"
                             overlay={

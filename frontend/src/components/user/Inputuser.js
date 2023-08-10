@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import { getMe } from "../../features/authSlice";
 
 import {
@@ -23,22 +22,9 @@ const Inputuser = () => {
   const navigate = useNavigate();
   const [validation, setValidation] = useState({});
 
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
-
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
 
   const saveKelurahan = async (e) => {
     e.preventDefault();
@@ -83,6 +69,7 @@ const Inputuser = () => {
     setTimeout(() => {
       setAlertShow(false);
       setValidation({});
+      navigate("aksesuser");
     }, 3000);
   };
   const notifError = (e) => {
@@ -189,7 +176,7 @@ const Inputuser = () => {
 
                 <Row className="col-md-5 mx-auto">
                   <Col>
-                    <Link to="/masteruser">
+                    <Link to="/tpp/master/aksesuser">
                       <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>

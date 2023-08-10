@@ -15,8 +15,10 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import SpinnerButton from "../atoms/SpinnerButton";
 
 const Listuser = () => {
+  const [isLoading, setisLoading] = useState(false);
   const [datausers, setDatausers] = useState([]);
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
@@ -42,13 +44,19 @@ const Listuser = () => {
   }, [page, keyword, limit]);
 
   const fetchData = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/users?search_query=${keyword}&page=${page}&limit=${limit}`
-    );
-    setDatausers(response.data.result);
-    setPage(response.data.page);
-    setPages(response.data.totalpage);
-    setRows(response.data.totalRows);
+    setisLoading(true);
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/users?search_query=${keyword}&page=${page}&limit=${limit}`
+      );
+      setDatausers(response.data.result);
+      setPage(response.data.page);
+      setPages(response.data.totalpage);
+      setRows(response.data.totalRows);
+    } catch (error) {
+    } finally {
+      setisLoading(false);
+    }
   };
 
   const clikLimit = (e) => {
@@ -176,54 +184,60 @@ const Listuser = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {datausers.map((datauser, index) => (
-                    <tr key={datauser.uuid}>
-                      <td align="center">{index + 1}</td>
-                      <td>{datauser.uuid}</td>
-                      <td>{datauser.namauser}</td>
-                      <td>{datauser.username}</td>
-                      <td>{datauser.role}</td>
-                      <td align="center">
-                        <Link to={`/masteruser/edit/${datauser.uuid}`}>
+                  {!isLoading ? (
+                    datausers.map((datauser, index) => (
+                      <tr key={datauser.uuid}>
+                        <td align="center">{index + 1}</td>
+                        <td>{datauser.uuid}</td>
+                        <td>{datauser.namauser}</td>
+                        <td>{datauser.username}</td>
+                        <td>{datauser.role}</td>
+                        <td align="center">
+                          <Link to={`edit/${datauser.uuid}`}>
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id="tooltip-top">
+                                  <strong>Tombol Edit</strong>.
+                                </Tooltip>
+                              }
+                            >
+                              <Button variant="outline-primary">
+                                <FontAwesomeIcon
+                                  icon={["fa", "edit"]}
+                                  size="lg"
+                                />
+                              </Button>
+                            </OverlayTrigger>
+                          </Link>
+                        </td>
+                        <td align="center">
                           <OverlayTrigger
                             placement="top"
                             overlay={
                               <Tooltip id="tooltip-top">
-                                <strong>Tombol Edit</strong>.
+                                <strong>Tombol Hapus</strong>.
                               </Tooltip>
                             }
                           >
-                            <Button variant="outline-primary">
+                            <Button
+                              variant="outline-danger"
+                              onClick={() => handleShow(datauser)}
+                            >
                               <FontAwesomeIcon
-                                icon={["fa", "edit"]}
+                                icon={["fa", "trash-alt"]}
                                 size="lg"
                               />
                             </Button>
                           </OverlayTrigger>
-                        </Link>
-                      </td>
-                      <td align="center">
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="tooltip-top">
-                              <strong>Tombol Hapus</strong>.
-                            </Tooltip>
-                          }
-                        >
-                          <Button
-                            variant="outline-danger"
-                            onClick={() => handleShow(datauser)}
-                          >
-                            <FontAwesomeIcon
-                              icon={["fa", "trash-alt"]}
-                              size="lg"
-                            />
-                          </Button>
-                        </OverlayTrigger>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={7}>
+                      <SpinnerButton />
+                    </td>
+                  )}
                 </tbody>
               </Table>
               <Alert variant="light">

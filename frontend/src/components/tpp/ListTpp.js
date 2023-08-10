@@ -29,7 +29,7 @@ const ListTpp = ({ DataTpp }) => {
         newarraytpp,
       })
       .then(() => {
-        navigate("/dashboard");
+        navigate("/tpp");
       })
       .catch((error) => {
         setValidation(error.response.data);
@@ -79,7 +79,7 @@ const ListTpp = ({ DataTpp }) => {
                     <form onSubmit={handleApiTpp}>
                       <Row className="col-md-5 mx-auto">
                         <Col>
-                          <Link to="/masterabsen">
+                          <Link to="/tpp/proses/absen">
                             <Button variant="primary">Cencel</Button>
                           </Link>
                         </Col>

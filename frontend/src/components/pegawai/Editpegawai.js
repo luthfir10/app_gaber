@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getMe } from "../../features/authSlice";
+// import { useDispatch, useSelector } from "react-redux";
+// import { getMe } from "../../features/authSlice";
 import axios from "axios";
 
 import {
@@ -30,25 +30,18 @@ const Editpegawai = () => {
   const [datakelurahans, setDatakelurahans] = useState([]);
   const [datajabatans, setDatajabatans] = useState([]);
 
-  const dispatch = useDispatch();
-  const { isError } = useSelector((state) => state.auth);
+  // const dispatch = useDispatch();
+  // const { isError } = useSelector((state) => state.auth);
 
   const [alertshow, setAlertShow] = useState(false);
   const [validated, setValidated] = useState(false);
   const [notinfo, setNotinfo] = useState("warning");
 
   useEffect(() => {
-    dispatch(getMe());
     getPegawaiById();
     getPenempatan();
     getJabatan();
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  }, []);
 
   const getPegawaiById = async () => {
     const response = await axios.get(
@@ -115,7 +108,7 @@ const Editpegawai = () => {
     setTimeout(() => {
       setAlertShow(false);
       setValidation({});
-      navigate("/masterpegawai");
+      navigate("/tpp/master/pegawai");
     }, 3000);
   };
   const notifError = (e) => {
@@ -251,7 +244,7 @@ const Editpegawai = () => {
                 </Form.Group>
                 <Row className="col-md-5 mx-auto">
                   <Col>
-                    <Link to="/masterpegawai">
+                    <Link to="/tpp/master/pegawai">
                       <Button variant="primary">Batal</Button>
                     </Link>
                   </Col>

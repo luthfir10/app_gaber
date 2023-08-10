@@ -1,25 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getMe } from "../features/authSlice";
-
 import { Card, Container, Row, Col } from "react-bootstrap";
+import useAuth from "../services/hooks/useAuth";
 
 const Dashboard = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isError, user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    dispatch(getMe());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isError) {
-      navigate("/login");
-    }
-  }, [isError, navigate]);
+  const { auth } = useAuth();
 
   const dateTime = new Date();
   return (
@@ -29,7 +14,8 @@ const Dashboard = () => {
           <Card className="border-0 rounded shadow-sm">
             <Card.Header>Dashboard</Card.Header>
             <Card.Body>
-              <h1>Selamat datang.. {user ? user.namauser : ""}</h1>
+              <h1>Selamat datang.. {auth ? auth.name : ""}</h1>
+              <p>Anda mengakses Roles {auth ? auth.roles : ""}</p>
               <p>{moment(dateTime).format("ll")}</p>
             </Card.Body>
           </Card>
