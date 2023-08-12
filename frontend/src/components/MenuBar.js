@@ -11,9 +11,8 @@ import useAuth from "../services/hooks/useAuth";
 import useLogout from "../services/hooks/useLogout";
 import Dropdownbendahara from "./Dropdownbendahara";
 import Dropdowncamat from "./Dropdowncamat";
-import Dropdownpegawai from "./Dropdownpegawai";
 
-const MenuBar = () => {
+const MenuBar = ({ menuClickMobile }) => {
   const navigate = useNavigate();
   const logout = useLogout();
 
@@ -26,13 +25,11 @@ const MenuBar = () => {
   };
 
   if (auth.roles[0] === "pranata komputer") {
-    dropDownMenu = <Dropdownmenu />;
+    dropDownMenu = <Dropdownmenu menuClickMobiles={menuClickMobile} />;
   } else if (auth.roles[0] === "bendahara") {
-    dropDownMenu = <Dropdownbendahara />;
+    dropDownMenu = <Dropdownbendahara menuClickMobiles={menuClickMobile} />;
   } else if (auth.roles[0] === "camat") {
-    dropDownMenu = <Dropdowncamat />;
-  } else if (auth.roles[0] === "pegawai") {
-    dropDownMenu = <Dropdownpegawai />;
+    dropDownMenu = <Dropdowncamat menuClickMobiles={menuClickMobile} />;
   }
 
   return (
@@ -44,7 +41,11 @@ const MenuBar = () => {
         <div className="sb-sidenav-menu">
           <div className="nav">
             <div className="sb-sidenav-menu-heading">Menu</div>
-            <Link to="/tpp" className="nav-link collapsed">
+            <Link
+              to="/tpp"
+              className="nav-link collapsed"
+              onClick={() => menuClickMobile()}
+            >
               <div className="sb-nav-link-icon">
                 <FontAwesomeIcon icon={faTachometerAlt} />
               </div>

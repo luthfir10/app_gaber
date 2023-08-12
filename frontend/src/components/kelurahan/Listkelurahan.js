@@ -15,6 +15,7 @@ import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import SpinnerButton from "../atoms/SpinnerButton";
 
 const Listkelurahan = () => {
   const [isLoading, setisLoading] = useState(false);
@@ -45,18 +46,17 @@ const Listkelurahan = () => {
   const fetchData = async () => {
     setisLoading(true);
     try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/kelurahan?search_query=${keyword}&page=${page}&limit=${limit}`
+      );
+      setDatakelurahans(response.data.result);
+      setPage(response.data.page);
+      setPages(response.data.totalpage);
+      setRows(response.data.totalRows);
     } catch (error) {
     } finally {
       setisLoading(false);
     }
-
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/kelurahan?search_query=${keyword}&page=${page}&limit=${limit}`
-    );
-    setDatakelurahans(response.data.result);
-    setPage(response.data.page);
-    setPages(response.data.totalpage);
-    setRows(response.data.totalRows);
   };
 
   const clikLimit = (e) => {
@@ -183,53 +183,59 @@ const Listkelurahan = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {datakelurahans.map((datakelurahan, index) => (
-                    <tr key={datakelurahan.kode}>
-                      <td align="center">{index + 1}</td>
-                      <td>{datakelurahan.kode}</td>
-                      <td>{datakelurahan.nama}</td>
-                      <td>{datakelurahan.alamat}</td>
-                      <td align="center">
-                        <Link to={`edit/${datakelurahan.kode}`}>
+                  {!isLoading ? (
+                    datakelurahans.map((datakelurahan, index) => (
+                      <tr key={datakelurahan.kode}>
+                        <td align="center">{index + 1}</td>
+                        <td>{datakelurahan.kode}</td>
+                        <td>{datakelurahan.nama}</td>
+                        <td>{datakelurahan.alamat}</td>
+                        <td align="center">
+                          <Link to={`edit/${datakelurahan.kode}`}>
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <Tooltip id="tooltip-top">
+                                  <strong>Tombol Edit</strong>.
+                                </Tooltip>
+                              }
+                            >
+                              <Button variant="outline-primary">
+                                <FontAwesomeIcon
+                                  icon={["fa", "edit"]}
+                                  size="lg"
+                                />
+                              </Button>
+                            </OverlayTrigger>
+                          </Link>
+                        </td>
+                        <td align="center">
                           <OverlayTrigger
                             placement="top"
                             overlay={
                               <Tooltip id="tooltip-top">
-                                <strong>Tombol Edit</strong>.
+                                <strong>Tombol Hapus</strong>.
                               </Tooltip>
                             }
                           >
-                            <Button variant="outline-primary">
+                            <Button
+                              variant="outline-danger"
+                              onClick={() => handleShow(datakelurahan)}
+                            >
                               <FontAwesomeIcon
-                                icon={["fa", "edit"]}
+                                icon={["fa", "trash-alt"]}
                                 size="lg"
                               />
                             </Button>
                           </OverlayTrigger>
-                        </Link>
-                      </td>
-                      <td align="center">
-                        <OverlayTrigger
-                          placement="top"
-                          overlay={
-                            <Tooltip id="tooltip-top">
-                              <strong>Tombol Hapus</strong>.
-                            </Tooltip>
-                          }
-                        >
-                          <Button
-                            variant="outline-danger"
-                            onClick={() => handleShow(datakelurahan)}
-                          >
-                            <FontAwesomeIcon
-                              icon={["fa", "trash-alt"]}
-                              size="lg"
-                            />
-                          </Button>
-                        </OverlayTrigger>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={7}>
+                      <SpinnerButton />
+                    </td>
+                  )}
                 </tbody>
               </Table>
               <Alert variant="light">

@@ -20,7 +20,7 @@ const LoadingLazy = () => {
         <Spinner
           animation="grow"
           role="status"
-          variant="secondary"
+          variant="light"
           style={{ width: "5rem", height: "5rem" }}
         >
           <span className="visually-hidden">Loading...</span>

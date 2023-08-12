@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import SpinnerButton from "../atoms/SpinnerButton";
 
 const Listjabatan = () => {
   const [isLoading, setisLoading] = useState(false);
@@ -43,17 +44,17 @@ const Listjabatan = () => {
   const fetchData = async () => {
     setisLoading(true);
     try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/jabatan?search_query=${keyword}&page=${page}&limit=${limit}`
+      );
+      setDatajabatans(response.data.result);
+      setPage(response.data.page);
+      setPages(response.data.totalpage);
+      setRows(response.data.totalRows);
     } catch (error) {
     } finally {
       setisLoading(false);
     }
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/jabatan?search_query=${keyword}&page=${page}&limit=${limit}`
-    );
-    setDatajabatans(response.data.result);
-    setPage(response.data.page);
-    setPages(response.data.totalpage);
-    setRows(response.data.totalRows);
   };
 
   const clikLimit = (e) => {
@@ -179,31 +180,40 @@ const Listjabatan = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {datajabatans.map((datajabatan, index) => (
-                    <tr key={datajabatan.kode}>
-                      <td align="center">{index + 1}</td>
-                      <td>{datajabatan.kode}</td>
-                      <td>{datajabatan.nama}</td>
-                      <td align="center">
-                        <Link to={`edit/${datajabatan.kode}`}>
-                          <Button variant="outline-primary">
-                            <FontAwesomeIcon icon={["fa", "edit"]} size="lg" />
+                  {!isLoading ? (
+                    datajabatans.map((datajabatan, index) => (
+                      <tr key={datajabatan.kode}>
+                        <td align="center">{index + 1}</td>
+                        <td>{datajabatan.kode}</td>
+                        <td>{datajabatan.nama}</td>
+                        <td align="center">
+                          <Link to={`edit/${datajabatan.kode}`}>
+                            <Button variant="outline-primary">
+                              <FontAwesomeIcon
+                                icon={["fa", "edit"]}
+                                size="lg"
+                              />
+                            </Button>
+                          </Link>
+                        </td>
+                        <td align="center">
+                          <Button
+                            variant="outline-danger"
+                            onClick={() => handleShow(datajabatan)}
+                          >
+                            <FontAwesomeIcon
+                              icon={["fa", "trash-alt"]}
+                              size="lg"
+                            />
                           </Button>
-                        </Link>
-                      </td>
-                      <td align="center">
-                        <Button
-                          variant="outline-danger"
-                          onClick={() => handleShow(datajabatan)}
-                        >
-                          <FontAwesomeIcon
-                            icon={["fa", "trash-alt"]}
-                            size="lg"
-                          />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={7}>
+                      <SpinnerButton />
+                    </td>
+                  )}
                 </tbody>
               </Table>
               <Alert variant="light">

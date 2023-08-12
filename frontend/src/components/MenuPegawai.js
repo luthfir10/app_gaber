@@ -9,7 +9,7 @@ import { Button } from "react-bootstrap";
 
 import useLogout from "../services/hooks/useLogout";
 
-const MenuPegawai = () => {
+const MenuPegawai = ({ menuClickMobile }) => {
   const navigate = useNavigate();
   const logout = useLogout();
 
@@ -27,14 +27,22 @@ const MenuPegawai = () => {
         <div className="sb-sidenav-menu">
           <div className="nav">
             <div className="sb-sidenav-menu-heading">Menu</div>
-            <Link to="/app" className="nav-link collapsed">
+            <Link
+              to="/app"
+              className="nav-link collapsed"
+              onClick={() => menuClickMobile()}
+            >
               <div className="sb-nav-link-icon">
                 <FontAwesomeIcon icon={faTachometerAlt} />
               </div>
               Home
             </Link>
             <div className="sb-sidenav-menu-heading">Utility</div>
-            <Link to="cektpp" className="nav-link collapsed">
+            <Link
+              to="cektpp"
+              className="nav-link collapsed"
+              onClick={() => menuClickMobile()}
+            >
               <div className="sb-nav-link-icon">
                 <FontAwesomeIcon icon={faSearch} />
               </div>

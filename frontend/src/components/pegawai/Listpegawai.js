@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import SpinnerButton from "../atoms/SpinnerButton";
 
 const Listpegawai = () => {
   const [isLoading, setisLoading] = useState(false);
@@ -43,17 +44,17 @@ const Listpegawai = () => {
   const fetchData = async () => {
     setisLoading(true);
     try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/pegawais?search_query=${keyword}&page=${page}&limit=${limit}`
+      );
+      setDatapegawais(response.data.result);
+      setPage(response.data.page);
+      setPages(response.data.totalpage);
+      setRows(response.data.totalRows);
     } catch (error) {
     } finally {
       setisLoading(false);
     }
-    const response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/pegawais?search_query=${keyword}&page=${page}&limit=${limit}`
-    );
-    setDatapegawais(response.data.result);
-    setPage(response.data.page);
-    setPages(response.data.totalpage);
-    setRows(response.data.totalRows);
   };
 
   const clikLimit = (e) => {
@@ -183,35 +184,44 @@ const Listpegawai = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {datapegawais.map((datapegawai, index) => (
-                    <tr key={datapegawai.nip}>
-                      <td align="center">{index + 1}</td>
-                      <td>{datapegawai.nip}</td>
-                      <td>{datapegawai.nama}</td>
-                      <td>{datapegawai.gol}</td>
-                      <td>{datapegawai.jabatan.nama}</td>
-                      <td>{datapegawai.kelurahan.nama}</td>
-                      <td>{datapegawai.tgl}</td>
-                      <td align="center">
-                        <Link to={`edit/${datapegawai.nip}`}>
-                          <Button variant="outline-primary">
-                            <FontAwesomeIcon icon={["fa", "edit"]} size="lg" />
+                  {!isLoading ? (
+                    datapegawais.map((datapegawai, index) => (
+                      <tr key={datapegawai.nip}>
+                        <td align="center">{index + 1}</td>
+                        <td>{datapegawai.nip}</td>
+                        <td>{datapegawai.nama}</td>
+                        <td>{datapegawai.gol}</td>
+                        <td>{datapegawai.jabatan.nama}</td>
+                        <td>{datapegawai.kelurahan.nama}</td>
+                        <td>{datapegawai.tgl}</td>
+                        <td align="center">
+                          <Link to={`edit/${datapegawai.nip}`}>
+                            <Button variant="outline-primary">
+                              <FontAwesomeIcon
+                                icon={["fa", "edit"]}
+                                size="lg"
+                              />
+                            </Button>
+                          </Link>
+                        </td>
+                        <td align="center">
+                          <Button
+                            variant="outline-danger"
+                            onClick={() => handleShow(datapegawai)}
+                          >
+                            <FontAwesomeIcon
+                              icon={["fa", "trash-alt"]}
+                              size="lg"
+                            />
                           </Button>
-                        </Link>
-                      </td>
-                      <td align="center">
-                        <Button
-                          variant="outline-danger"
-                          onClick={() => handleShow(datapegawai)}
-                        >
-                          <FontAwesomeIcon
-                            icon={["fa", "trash-alt"]}
-                            size="lg"
-                          />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <td colSpan={7}>
+                      <SpinnerButton />
+                    </td>
+                  )}
                 </tbody>
               </Table>
               <Alert variant="light">

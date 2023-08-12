@@ -17,7 +17,7 @@ import {
   Button,
   Alert,
 } from "react-bootstrap";
-import SpinnerButton from "../atoms/SpinnerButton";
+import SpinnerLogin from "../atoms/SpinnerLogin";
 
 const LoginForm = () => {
   const [isLoading, setisLoading] = useState(false);
@@ -159,7 +159,7 @@ const LoginForm = () => {
                     color="white"
                     size="lg"
                   >
-                    {isLoading ? <SpinnerButton /> : "Login"}
+                    {isLoading ? <SpinnerLogin /> : "Login"}
                   </Button>
 
                   <div className="d-flex flex-row mt-3 mb-5"></div>

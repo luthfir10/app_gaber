@@ -32,7 +32,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: "http://3.145.149.252:3000",
+    origin: "http://192.168.1.13:3000",
   })
 );
 app.use(express.json());

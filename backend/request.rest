@@ -11,8 +11,9 @@ Content-Type: application/json
 }
 
 ###
-// get All User
-GET http://localhost:5000/pegawais
+// backend
+GET http://18.222.216.165:5000
+http://3.145.149.252:3000
 
 ###
 // get ById User
